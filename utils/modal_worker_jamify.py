@@ -26,7 +26,7 @@ image = (
 volumes = { "/mnt/models": modal.Volume.from_name("models") }
 
 
-@app.function(image=image, volumes=volumes)
+@app.function(image=image, volumes=volumes, gpu="H100", timeout=600)
 def main():
     print("Hello World")
     print("=== Volume Debug Info ===")
