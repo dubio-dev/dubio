@@ -5,7 +5,7 @@ Works with actual viseme names from previous pipeline stage.
 """
 
 import re
-from typing import List, Dict, Tuple
+from typing import List, Dict
 import os
 import json
 import argparse
@@ -29,7 +29,7 @@ VISEME_WEIGHTS = {
     'Silence': 0.5  # silence - least important for matching
 }
 
-def chunk_for_educational_lyrics(visemes, target_duration=3.0):
+def chunk_for_lyrics(visemes, target_duration=3.0):
     """Chunk visemes into natural phrase boundaries."""
     if not visemes:
         return []
@@ -48,7 +48,7 @@ def chunk_for_educational_lyrics(visemes, target_duration=3.0):
             if current_chunk:
                 chunk_duration = viseme['t0'] - chunk_start
                 if chunk_duration >= target_duration * 0.7:
-                    chunks.append(create_educational_chunk(current_chunk, chunk_start, viseme['t0']))
+                    chunks.append(create_chunk(current_chunk, chunk_start, viseme['t0']))
                     current_chunk = []
                     chunk_start = None
             continue
@@ -57,20 +57,20 @@ def chunk_for_educational_lyrics(visemes, target_duration=3.0):
         chunk_duration = viseme['t1'] - chunk_start
         
         if chunk_duration >= target_duration * 1.5:
-            chunks.append(create_educational_chunk(current_chunk, chunk_start, viseme['t1']))
+            chunks.append(create_chunk(current_chunk, chunk_start, viseme['t1']))
             current_chunk = []
             chunk_start = None
         elif chunk_duration >= target_duration and len(current_chunk) >= 3:
-            chunks.append(create_educational_chunk(current_chunk, chunk_start, viseme['t1']))
+            chunks.append(create_chunk(current_chunk, chunk_start, viseme['t1']))
             current_chunk = []
             chunk_start = None
     
     if current_chunk:
-        chunks.append(create_educational_chunk(current_chunk, chunk_start, current_chunk[-1]['t1']))
+        chunks.append(create_chunk(current_chunk, chunk_start, current_chunk[-1]['t1']))
     
     return chunks
 
-def create_educational_chunk(visemes, t0, t1):
+def create_chunk(visemes, t0, t1):
     """Create chunk with target viseme pattern."""
     if not visemes:
         return None
@@ -140,13 +140,13 @@ def compute_duration_penalty(candidate_text: str, target_duration: float) -> flo
     duration_diff = abs(estimated_duration - target_duration)
     return duration_diff / target_duration if target_duration > 0 else 0
 
-class RobustEducationalLyricGenerator:
-    def __init__(self, api_key: str, educational_topic: str = "science"):
+class RobustLyricGenerator:
+    def __init__(self, api_key: str, topic: str = "science"):
         self.api_key = api_key
-        self.educational_topic = educational_topic
+        self.topic = topic
     
     def generate_lyrics_for_chunks(self, chunks: List[Dict], topic: str = None) -> List[Dict]:
-        topic = topic or self.educational_topic
+        topic = topic or self.topic
         all_word_entries = []
         
         for chunk in chunks:
@@ -181,14 +181,14 @@ class RobustEducationalLyricGenerator:
         viseme_info = ', '.join(chunk['target_viseme_pattern'])
         
         prompt = f"""
-Generate 5 different educational phrases about {topic}, each with exactly {target_syllables} syllables.
+Generate 5 different phrases about {topic}, each with exactly {target_syllables} syllables.
 
 The phrases will be matched to these lip movements: {viseme_info}
 
 Requirements:
 - Each phrase must have exactly {target_syllables} syllables
 - All about {topic}
-- Educational and clear
+- Clear
 - Different word choices for each
 - Natural sounding phrases
 
@@ -229,25 +229,12 @@ Generate 5 phrases with {target_syllables} syllables about {topic}:
                 if candidate:
                     cleaned.append(candidate)
             
-            return cleaned[:5] if cleaned else self._fallback_candidates(chunk, topic)
+            return cleaned[:5] if cleaned else []
             
         except Exception as e:
             print(f"Error generating candidates: {e}")
-            return self._fallback_candidates(chunk, topic)
-    
-    def _fallback_candidates(self, chunk: Dict, topic: str) -> List[str]:
-        """Generate simple fallback candidates."""
-        syllables = chunk['estimated_syllables']
+            return []
         
-        if 'math' in topic.lower():
-            base_phrases = ["add numbers up", "learn math today", "count to ten", "plus and minus", "solve the problem"]
-        elif 'science' in topic.lower():
-            base_phrases = ["study nature well", "plants grow tall", "water flows down", "learn science facts", "observe the world"]
-        else:
-            base_phrases = ["learn something new", "study very hard", "read good books", "think really clear", "explore the world"]
-        
-        return base_phrases[:3]
-    
     def _score_candidate_simple(self, candidate: str, chunk: Dict) -> float:
         """Score candidate based on duration and length matching (simplified)."""
         
@@ -290,8 +277,8 @@ Generate 5 phrases with {target_syllables} syllables about {topic}:
         current_time = chunk['t0']
         
         for word in words:
-            start_time = round(current_time, 1)
-            end_time = round(current_time + time_per_word, 1)
+            start_time = round(current_time, 3)
+            end_time = round(current_time + time_per_word, 3)
             
             word_entries.append({
                 "start": start_time,
@@ -302,7 +289,7 @@ Generate 5 phrases with {target_syllables} syllables about {topic}:
         
         return word_entries
 
-def create_robust_educational_lipsync_lyrics(visemes: List[Dict], topic: str, openai_api_key: str, output_file: str = None) -> List[Dict]:
+def create_robust_lipsync_lyrics(visemes: List[Dict], topic: str, openai_api_key: str, output_file: str = None) -> List[Dict]:
     """
     Robust pipeline: visemes -> candidates -> scoring -> best match selection.
     
@@ -315,8 +302,8 @@ def create_robust_educational_lipsync_lyrics(visemes: List[Dict], topic: str, op
     Returns:
         List of word dictionaries with start/end times
     """
-    chunks = chunk_for_educational_lyrics(visemes)
-    generator = RobustEducationalLyricGenerator(openai_api_key, topic)
+    chunks = chunk_for_lyrics(visemes)
+    generator = RobustLyricGenerator(openai_api_key, topic)
     word_entries = generator.generate_lyrics_for_chunks(chunks)
     
     # Save to JSON file if requested
@@ -350,7 +337,7 @@ def main():
         print(f"Loaded {len(visemes)} visemes from {args.input_file}")
         
         # Generate lyrics
-        word_entries = create_robust_educational_lipsync_lyrics(
+        word_entries = create_robust_lipsync_lyrics(
             visemes=visemes,
             topic=args.topic,
             openai_api_key=api_key,

@@ -1,8 +1,8 @@
-project_root: "."
+project_root: '.'
 evaluation:
-  checkpoint_path: ""
-  output_dir: "outputs"
-  test_set_path: "inputs/input.json"
+  checkpoint_path: ''
+  output_dir: 'outputs'
+  test_set_path: 'inputs/input.json'
   negative_style_prompt: ${project_root}/public/vocal.npy
   num_samples: null
   batch_size: 1
@@ -13,12 +13,12 @@ evaluation:
   use_prompt_style: false
 
   dataset:
-    pattern: "placeholder"
+    pattern: 'placeholder'
     shuffle: false
     resample_by_duration_threshold: null
     always_crop_from_beginning: true
     always_use_style_index: 0
-  
+
   sample_kwargs:
     batch_infer_num: 1
     # fix_dual_cfg: true
@@ -56,11 +56,11 @@ data:
     multiple_styles: true
     sampling_rate: 44100
     shuffle: true
-    silence_latent_path: ${project_root}/public/silence_latent.pt
-    tokenizer_path: ${project_root}/public/en_us_cmudict_ipa_forward.pt
+    silence_latent_path: /mnt/models/jam-0.5/silence_latent.pt
+    tokenizer_path: /mnt/models/jam-0.5/en_us_cmudict_ipa_forward.pt
     lrc_upsample_factor: ${lrc_upsample_factor}
     filler: average_sparse
-    phonemizer_checkpoint: ${project_root}/public/en_us_cmudict_ipa_forward.pt
+    phonemizer_checkpoint: /mnt/models/jam-0.5/en_us_cmudict_ipa_forward.pt
 
 # General settings
 max_frames: 5000
