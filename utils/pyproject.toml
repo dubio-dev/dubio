@@ -15,4 +15,5 @@ dependencies = [
     "torch>=2.8.0",
     "torchaudio>=2.8.0",
     "yt-dlp>=2025.7.21",
+    "openai>=1.99.6",
 ]
