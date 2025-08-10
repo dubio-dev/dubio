@@ -9,6 +9,16 @@ from typing import List, Dict, Tuple
 import os
 import json
 
+# Modal integration
+try:
+    import sys
+    sys.path.append('/Users/michelle.wei_x/Documents/dubio/utils')
+    from modal_worker_integrated import app, image
+    import modal
+    MODAL_AVAILABLE = True
+except ImportError:
+    MODAL_AVAILABLE = False
+
 # Viseme importance weights for scoring (based on visibility)
 VISEME_WEIGHTS = {
     'PP': 3.0,      # p, b, m - very visible lip closure
@@ -466,3 +476,10 @@ if __name__ == "__main__":
     print(f"\n{'='*60}")
     print("JSON OUTPUT TEST COMPLETE!")
     print("Check the generated .json files in the current directory")
+
+# Modal function registration
+if MODAL_AVAILABLE:
+    @app.function(image=image, cpu=1, timeout=600)
+    def generate_lyrics_from_visemes(visemes: list):
+        """Modal wrapper for chunk_for_educational_lyrics"""
+        return chunk_for_educational_lyrics(visemes, target_duration=3.0)
