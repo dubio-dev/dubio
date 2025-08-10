@@ -1,6 +1,11 @@
 import modal
 import os
 
+# Import the modal-registered functions
+from yt_to_resonite_visemes import extract_visemes
+from lyricsgeneration.robust_lyrics_gen import generate_lyrics_from_visemes  
+from stitch_audio_video import stitch_audio_with_video
+
 ### MODAL APP NAME ###
 modal_app_name = "integrated-jamify-pipeline"
 
@@ -33,11 +38,6 @@ volumes = {
     "/mnt/models": modal.Volume.from_name("models"),
     "/mnt/outputs": modal.Volume.from_name("my-output-volume", create_if_missing=True)
 }
-
-# Import the modal-registered functions
-from yt_to_resonite_visemes import extract_visemes
-from lyricsgeneration.robust_lyrics_gen import generate_lyrics_from_visemes  
-from stitch_audio_video import stitch_audio_with_video
 
 @app.function(image=image, volumes=volumes, cpu=2, timeout=1200)
 def prepare_jamify_inputs(youtube_url: str, max_duration: int = 60):
