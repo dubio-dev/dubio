@@ -172,31 +172,108 @@ def captions_to_text(sub_path: Path):
     
     return lines
 
-def run_lyrics_aligner(audio_path: Path, lyrics_path: Path, out_json: Path):
-    """Run phoneme alignment using built-in logic instead of external lyrics-aligner"""
+def parse_vtt_with_timing(sub_path: Path):
+    """Extract text segments with timing information from VTT subtitle file"""
+    segments = []
+    
+    with open(sub_path, "r", encoding="utf-8", errors="ignore") as f:
+        content = f.read()
+    
+    # Split into blocks separated by double newlines
+    blocks = re.split(r'\n\s*\n', content)
+    
+    for block in blocks:
+        lines = [line.strip() for line in block.split('\n') if line.strip()]
+        if len(lines) < 2:
+            continue
+            
+        # Look for timestamp line
+        timestamp_line = None
+        text_lines = []
+        
+        for line in lines:
+            if re.match(r'\d{2}:\d{2}:\d{2}\.\d{3}\s+-->', line):
+                timestamp_line = line
+            elif (line.upper() not in ["WEBVTT", "KIND: CAPTIONS", "LANGUAGE: EN"] and
+                  not line.isdigit()):
+                text_lines.append(line)
+        
+        if not timestamp_line or not text_lines:
+            continue
+            
+        # Parse timestamp
+        match = re.match(r'(\d{2}):(\d{2}):(\d{2})\.(\d{3})\s+-->\s+(\d{2}):(\d{2}):(\d{2})\.(\d{3})', timestamp_line)
+        if not match:
+            continue
+            
+        # Convert to seconds
+        start_h, start_m, start_s, start_ms = map(int, match.groups()[:4])
+        end_h, end_m, end_s, end_ms = map(int, match.groups()[4:])
+        
+        start_time = start_h * 3600 + start_m * 60 + start_s + start_ms / 1000.0
+        end_time = end_h * 3600 + end_m * 60 + end_s + end_ms / 1000.0
+        
+        # Clean text
+        text = ' '.join(text_lines)
+        # Remove timing tags like <00:00:19.039><c> no</c>
+        text = re.sub(r'<\d{2}:\d{2}:\d{2}\.\d{3}><c>\s*', '', text)
+        text = re.sub(r'</c>', '', text)
+        text = re.sub(r'<[^>]+>', '', text)
+        text = re.sub(r'\s+', ' ', text).strip()
+        
+        # Only keep segments with meaningful text
+        if (text and 
+            ' ' in text and  # Has spaces (multiple words)
+            len(text) > 3 and  # Reasonable length
+            not text.startswith('[') and  # Not music markers
+            text != '[Music]'):
+            
+            segments.append({
+                'start': start_time,
+                'end': end_time,
+                'text': text
+            })
+    
+    return segments
+
+def run_lyrics_aligner(audio_path: Path, lyrics_path: Path, out_json: Path, vtt_path: Path = None):
+    """Run phoneme alignment using built-in logic with optional VTT timing"""
     print("[INFO] Running built-in phoneme alignment...")
     
-    # Read the lyrics
-    with open(lyrics_path, 'r', encoding='utf-8') as f:
-        text = f.read().strip()
-    
     # Get audio duration using ffprobe
-    try:
-        cmd = ["ffprobe", "-i", str(audio_path), "-show_entries", "format=duration", "-v", "quiet", "-of", "csv=p=0"]
-        duration = float(subprocess.check_output(cmd).decode().strip())
-        print(f"[INFO] Audio duration: {duration:.2f} seconds")
-    except Exception as e:
-        print(f"[WARN] Could not get audio duration: {e}")
-        duration = 30.0  # Default fallback
+    cmd = ["ffprobe", "-v", "quiet", "-show_entries", "format=duration", "-of", "csv=p=0", str(audio_path)]
+    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+    duration = float(result.stdout.strip())
     
-    # Process text to phonemes
-    phonemes = align_text_to_phonemes(text, duration)
+    print(f"[INFO] Audio duration: {duration:.1f} seconds")
+    
+    # Try to use VTT timing if available
+    if vtt_path and vtt_path.exists():
+        print(f"[INFO] Using VTT timing from: {vtt_path}")
+        segments = parse_vtt_with_timing(vtt_path)
+        if segments:
+            print(f"[INFO] Found {len(segments)} timed segments")
+            phoneme_segments = align_segments_to_phonemes(segments)
+        else:
+            print("[WARN] No valid segments found in VTT, falling back to text-only alignment")
+            # Fallback to text-only alignment
+            with open(lyrics_path, 'r', encoding='utf-8') as f:
+                text = f.read().strip()
+            phoneme_segments = align_text_to_phonemes(text, duration)
+    else:
+        print("[INFO] No VTT file provided, using text-only alignment")
+        # Read lyrics text
+        with open(lyrics_path, 'r', encoding='utf-8') as f:
+            text = f.read().strip()
+        
+        # Convert text to phonemes with timing
+        phoneme_segments = align_text_to_phonemes(text, duration)
     
     # Save phoneme data
     with open(out_json, 'w', encoding='utf-8') as f:
-        json.dump(phonemes, f, indent=2)
+        json.dump(phoneme_segments, f, indent=2)
     
-    print(f"[INFO] Generated {len(phonemes)} phoneme segments")
+    print(f"[INFO] Generated {len(phoneme_segments)} phoneme segments")
 
 def align_text_to_phonemes(text: str, duration: float) -> list:
     """Convert text to timed phoneme segments using CMU dictionary"""
@@ -237,6 +314,54 @@ def align_text_to_phonemes(text: str, duration: float) -> list:
         current_time = end_time
     
     return phoneme_segments
+
+def align_segments_to_phonemes(segments: list) -> list:
+    """Convert VTT segments with timing to timed phoneme segments using CMU dictionary"""
+    if not segments:
+        return []
+    
+    # Load CMU dictionary for phoneme lookup
+    cmu_dict = load_cmu_dictionary()
+    
+    all_phoneme_segments = []
+    
+    for segment in segments:
+        start_time = segment['start']
+        end_time = segment['end']
+        text = segment['text']
+        segment_duration = end_time - start_time
+        
+        # Clean and split text into words
+        words = re.findall(r'\b[a-zA-Z]+\b', text.lower())
+        if not words:
+            continue
+        
+        # Convert words to phonemes
+        segment_phonemes = []
+        for word in words:
+            word_phonemes = get_word_phonemes(word, cmu_dict)
+            segment_phonemes.extend(word_phonemes)
+        
+        if not segment_phonemes:
+            continue
+        
+        # Distribute phonemes evenly within this segment's time range
+        phoneme_duration = segment_duration / len(segment_phonemes)
+        current_time = start_time
+        
+        for phoneme in segment_phonemes:
+            phoneme_start = current_time
+            phoneme_end = current_time + phoneme_duration
+            
+            all_phoneme_segments.append({
+                "t0": round(phoneme_start, 3),
+                "t1": round(phoneme_end, 3),
+                "phoneme": phoneme
+            })
+            
+            current_time = phoneme_end
+    
+    return all_phoneme_segments
 
 def get_word_phonemes(word: str, cmu_dict=None) -> list:
     """Get phonemes for a word using CMU dictionary with simple fallback"""
@@ -321,7 +446,7 @@ def process_youtube_to_visemes(youtube_url: str, max_duration: int = None) -> li
         setup_lyrics_aligner()
         
         phonemes_json = OUTDIR / "phonemes.json"
-        run_lyrics_aligner(audio, lyrics_txt, phonemes_json)
+        run_lyrics_aligner(audio, lyrics_txt, phonemes_json, subs)
         print(f"[OK] Phonemes saved to: {phonemes_json}")
 
         # Step 4: Convert phonemes to visemes
