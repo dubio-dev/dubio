@@ -74,7 +74,7 @@ def main(url=None, mp3_path=None, output_path=None, max_duration=None):
         return output_path
 
 # Modal function registration
-if MODAL_AVAILABLE:
+if MODAL_AVAILABLE and False:
     @app.function(image=image, volumes=volumes, cpu=1, timeout=600)
     def stitch_audio_with_video(youtube_url: str, audio_filename: str, max_duration: int = 60):
         """Modal wrapper for main stitch function"""
