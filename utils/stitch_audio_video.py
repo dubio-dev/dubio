@@ -1,12 +1,13 @@
 # Hardcoded YouTube URL + MP3 -> writes OUT (MP4 with H.264 + AAC)
 # Requirements: pip install -r requirements.txt  |  install ffmpeg on PATH
 
-import subprocess, tempfile, pathlib
+import subprocess
+import tempfile
+import pathlib
 
 # Modal integration
 try:
     from modal_worker_integrated import app, image, volumes
-    import modal
     MODAL_AVAILABLE = True
 except ImportError:
     MODAL_AVAILABLE = False
@@ -79,7 +80,7 @@ if MODAL_AVAILABLE:
         """Modal wrapper for main stitch function"""
         audio_path = f"/mnt/outputs/{audio_filename}"
         output_path = "/mnt/outputs/final_video.mp4"
-        result = main(youtube_url, audio_path, output_path, max_duration)
+        main(youtube_url, audio_path, output_path, max_duration)
         volumes["/mnt/outputs"].commit()
         return {"success": True, "output_path": output_path}
 
