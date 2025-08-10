@@ -23,7 +23,10 @@ image = (
     .env({"PYTHONPATH": "/root/jamify/src"})    # ?? maybe unnecessary ??
 )
 
-volumes = { "/mnt/models": modal.Volume.from_name("models") }
+volumes = {
+    "/mnt/models": modal.Volume.from_name("models"),
+    "/mnt/outputs": modal.Volume.from_name("my-output-volume", create_if_missing=True)
+}
 
 
 @app.function(image=image, volumes=volumes, gpu="H100", timeout=600)
@@ -52,6 +55,10 @@ def main():
     print("\n=== Running inference ===")
     os.system("cd /root/jamify && python inference.py")
 
+    print("\n=== Extracting Generated Files ===")
+    os.system("cp -r /root/jamify/outputs /mnt/outputs/")
+    volumes["/mnt/outputs"].commit()
+    print("✅ Files copied to my-output-volume")
 
 @app.local_entrypoint()
 def local_main():
