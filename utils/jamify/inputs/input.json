@@ -3,7 +3,7 @@
     "id": "lyrics_basic_math",
     "audio_path": "inputs/lyrics_basic_math.mp3",
     "lrc_path": "inputs/lyrics_basic_math.json",
-    "duration": 30.00,
+    "duration": 48.00,
     "prompt_path": "inputs/lyrics_basic_math.txt"
   }
 ]

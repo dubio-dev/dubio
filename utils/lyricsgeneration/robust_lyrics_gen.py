@@ -196,7 +196,7 @@ Format: Return only the phrases, one per line.
 Example for 4 syllables about math:
 - Add two plus three
 - Math is so fun  
-- Learn to subtract
+- Learn to sbtract
 - Count up to ten
 - Numbers are cool
 
@@ -332,7 +332,7 @@ if __name__ == "__main__":
     # More realistic viseme sequence with varied timing (like actual speech)
     import json
     
-    with open('sample_visemes.json', 'r') as f:
+    with open('lyricsgeneration/visemes_resonite_min_short.json', 'r') as f:
         sample_visemes = json.load(f)
     
     print("=== ROBUST LYRICS GENERATOR TEST ===")
