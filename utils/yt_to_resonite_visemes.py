@@ -2,7 +2,6 @@
 """
 yt_to_resonite_visemes_minimal_cmudict.py
 
-- Hardcoded YouTube URL
 - Downloads audio (wav) + English auto-captions (yt-dlp + ffmpeg)
 - Converts captions to text
 - Runs local lyrics-aligner (python -m lyrics_aligner) to get time-stamped phonemes
@@ -12,9 +11,6 @@ yt_to_resonite_visemes_minimal_cmudict.py
 Outputs:
 - out/phonemes.json
 - out/visemes_resonite_min.json
-
-To run:
-    uv run yt_to_resonite_visemes_minimal_cmudict.py
 """
 
 from pathlib import Path
@@ -24,6 +20,14 @@ import re
 import sys
 import shutil
 import os
+
+# Modal integration
+try:
+    from modal_worker_integrated import app, image, volumes
+    import modal
+    MODAL_AVAILABLE = True
+except ImportError:
+    MODAL_AVAILABLE = False
 
 # ---------------- Configuration ----------------
 YOUTUBE_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"  # change this
@@ -366,26 +370,63 @@ def to_minimal_visemes(phoneme_json: Path, out_json: Path):
     if missing:
         print("[WARN] Unrecognized phones encountered (mapped to 'E'):", ", ".join(sorted(missing)), file=sys.stderr)
 
-def main():
-    audio, subs = download_audio_and_captions(YOUTUBE_URL, OUTDIR, LANGUAGE)
+def main(youtube_url=None, max_duration=None):
+    url = youtube_url or YOUTUBE_URL
+    
+    # Temporarily modify the global URL for this run
+    global YOUTUBE_URL
+    original_url = YOUTUBE_URL
+    YOUTUBE_URL = url
+    
+    try:
+        audio, subs = download_audio_and_captions(url, OUTDIR, LANGUAGE)
 
-    lyrics_txt = OUTDIR / "captions.txt"
-    captions_lines = captions_to_text(subs)
-    # Clean captions text by removing apostrophes to handle contractions
-    cleaned_captions = [line.replace("'", "") for line in captions_lines]
-    lyrics_txt.write_text("\n".join(cleaned_captions), encoding="utf-8")
-    print("[OK] Captions ->", lyrics_txt)
+        lyrics_txt = OUTDIR / "captions.txt"
+        captions_lines = captions_to_text(subs)
+        # Clean captions text by removing apostrophes to handle contractions
+        cleaned_captions = [line.replace("'", "") for line in captions_lines]
+        lyrics_txt.write_text("\n".join(cleaned_captions), encoding="utf-8")
+        print("[OK] Captions ->", lyrics_txt)
 
-    # Set up lyrics-aligner after captions are created so we can extract words from them
-    setup_lyrics_aligner()
+        # Set up lyrics-aligner after captions are created so we can extract words from them
+        setup_lyrics_aligner()
 
-    phonemes_json = OUTDIR / "phonemes.json"
-    run_lyrics_aligner(audio, lyrics_txt, phonemes_json)
-    print("[OK] Aligned phonemes ->", phonemes_json)
+        phonemes_json = OUTDIR / "phonemes.json"
+        run_lyrics_aligner(audio, lyrics_txt, phonemes_json)
+        print("[OK] Aligned phonemes ->", phonemes_json)
 
-    visemes_json = OUTDIR / "visemes_resonite_min.json"
-    to_minimal_visemes(phonemes_json, visemes_json)
-    print("[DONE] Minimal visemes ->", visemes_json)
+        visemes_json = OUTDIR / "visemes_resonite_min.json"
+        to_minimal_visemes(phonemes_json, visemes_json)
+        print("[DONE] Minimal visemes ->", visemes_json)
+        
+        # Load and return visemes
+        with open(visemes_json, 'r') as f:
+            visemes = json.load(f)
+        
+        # Truncate to max_duration if specified
+        if max_duration:
+            truncated = []
+            for item in visemes:
+                if item['t0'] < max_duration:
+                    item['t1'] = min(item['t1'], max_duration)
+                    truncated.append(item)
+                else:
+                    break
+            visemes = truncated
+            print(f"[INFO] Truncated to {max_duration}s: {len(truncated)} visemes")
+        
+        return visemes
+        
+    finally:
+        YOUTUBE_URL = original_url
+
+# Modal function registration
+if MODAL_AVAILABLE:
+    @app.function(image=image, cpu=2, timeout=900)
+    def extract_visemes(youtube_url: str, max_duration: int = 60):
+        """Modal function to extract visemes from YouTube video"""
+        print(f"=== EXTRACTING VISEMES: {youtube_url} (max {max_duration}s) ===")
+        return main(youtube_url, max_duration)
 
 if __name__ == "__main__":
     main()
