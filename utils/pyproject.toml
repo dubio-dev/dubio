@@ -17,4 +17,5 @@ dependencies = [
     "yt-dlp>=2025.7.21",
     "openai>=1.99.6",
     "ipython>=9.4.0",
+    "whisperx>=3.4.2",
 ]

@@ -3,7 +3,7 @@ evaluation:
   checkpoint_path: ''
   output_dir: 'outputs'
   test_set_path: 'inputs/input.json'
-  negative_style_prompt: ${project_root}/public/vocal.npy
+  negative_style_prompt: /mnt/models/jam-0.5/vocal.npy
   num_samples: null
   batch_size: 1
   random_crop_style: false

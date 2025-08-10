@@ -18,6 +18,7 @@ image = (
     .apt_install(["git", "ffmpeg"])
     .pip_install_from_requirements("jamify/requirements.txt")
     .pip_install("git+https://github.com/xhhhhang/DeepPhonemizer@dcfafbf2")
+    .pip_install("accelerate")
     .env({"PYTHONPATH": "/root/jamify/src"})
     .add_local_python_source("jamify", copy=False)
     .add_local_file("jamify/configs/jam_infer.yaml", remote_path="/root/jamify/configs/jam_infer.yaml", copy=False)
@@ -29,45 +30,40 @@ volumes = {
 }
 
 
-@app.function(image=image, volumes=volumes, gpu="H100", timeout=600)
-def main(input_data: dict, style_prompt: str):
+@app.function(image=image, volumes=volumes, gpu="H100:2", timeout=600)
+def main(input_data: dict, lyrics_json: list, style_prompt: str):
     """
     Generate song using jamify with provided input data and style prompt.
     
     Args:
         input_data: Dictionary containing input configuration (from input.json)
+        lyrics_json: List of phoneme objects (from lyrics.json)
         style_prompt: String containing the style prompt for generation
     """
     # Create inputs directory in container
     os.makedirs("/root/jamify/inputs", exist_ok=True)
-    
+
     # Write input.json to container
     input_json_path = "/root/jamify/inputs/input.json"
+    os.makedirs(os.path.dirname(input_json_path), exist_ok=True)
     with open(input_json_path, "w") as f:
         json.dump(input_data, f, indent=2)
+
+    # Write lyrics.json to container
+    lyrics_json_path = input_data[0]["lrc_path"]
+    with open(lyrics_json_path, "w") as f:
+        json.dump(lyrics_json, f, indent=2)
     
     # Write style prompt to container
-    style_prompt_path = "/root/jamify/inputs/style_prompt.txt"
+    style_prompt_path = input_data[0]["prompt_path"]
     with open(style_prompt_path, "w") as f:
         f.write(style_prompt)
-    
-    # Update input data to use container paths
-    container_input_data = []
-    for item in input_data:
-        updated_item = item.copy()
-        # Update prompt_path to point to our written file
-        updated_item["prompt_path"] = "inputs/style_prompt.txt"
-        container_input_data.append(updated_item)
-    
-    # Write updated input.json
-    with open(input_json_path, "w") as f:
-        json.dump(container_input_data, f, indent=2)
     
     # Use direct model path to avoid Modal volume symlink issues
     output_dir = f"/mnt/outputs/{dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
     
     subprocess.run([
-        "python", "-m", "jam.infer",
+        "accelerate", "launch", "-m", "jam.infer",
         "evaluation.checkpoint_path=/mnt/models/jam-0.5/jam-0_5.safetensors",
         f"evaluation.output_dir={output_dir}",
         "config=/root/jamify/configs/jam_infer.yaml"
@@ -84,12 +80,15 @@ def local_main():
     # Read input.json
     with open("song-gen/input.json", "r") as f:
         input_data = json.load(f)
+
+    with open("song-gen/lyrics.json", "r") as f:
+        lyrics_json = json.load(f)
     
     # Read style prompt
     with open("song-gen/style_prompt.txt", "r") as f:
         style_prompt = f.read().strip()
     
     # Call remote function
-    output_dir = main.remote(input_data, style_prompt)
+    output_dir = main.remote(input_data, lyrics_json, style_prompt)
     print(f"Song generation completed. Output saved to: {output_dir}")
     return output_dir

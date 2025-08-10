@@ -4,6 +4,8 @@ __pycache__/
 
 *.mp3
 *.mp4
+*.pickle
+*.wav
 
 utils/lyrics-aligner/out
 .env
