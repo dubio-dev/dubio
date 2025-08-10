@@ -330,77 +330,10 @@ def create_robust_educational_lipsync_lyrics(visemes: List[Dict], topic: str, op
 
 if __name__ == "__main__":
     # More realistic viseme sequence with varied timing (like actual speech)
-    sample_visemes = [
-        # "Plants need sunlight to grow well"
-        {"viseme":"PP","t0":0.0,"t1":0.08},      # P in "Plants"
-        {"viseme":"NN","t0":0.08,"t1":0.15},     # l in "Plants" 
-        {"viseme":"AA","t0":0.15,"t1":0.28},     # a in "Plants"
-        {"viseme":"NN","t0":0.28,"t1":0.35},     # n in "Plants"
-        {"viseme":"DD","t0":0.35,"t1":0.42},     # t in "Plants"
-        {"viseme":"SS","t0":0.42,"t1":0.48},     # s in "Plants"
-        
-        {"viseme":"Silence","t0":0.48,"t1":0.65}, # brief pause
-        
-        {"viseme":"NN","t0":0.65,"t1":0.72},     # n in "need"
-        {"viseme":"E","t0":0.72,"t1":0.88},      # ee in "need"
-        {"viseme":"DD","t0":0.88,"t1":0.95},     # d in "need"
-        
-        {"viseme":"Silence","t0":0.95,"t1":1.1}, # pause
-        
-        {"viseme":"SS","t0":1.1,"t1":1.18},      # s in "sunlight"
-        {"viseme":"AA","t0":1.18,"t1":1.32},     # u in "sunlight"
-        {"viseme":"NN","t0":1.32,"t1":1.38},     # n in "sunlight"
-        {"viseme":"NN","t0":1.38,"t1":1.45},     # l in "sunlight"
-        {"viseme":"AA","t0":1.45,"t1":1.58},     # i in "sunlight"
-        {"viseme":"DD","t0":1.58,"t1":1.65},     # t in "sunlight"
-        
-        {"viseme":"Silence","t0":1.65,"t1":1.85}, # longer pause
-        
-        {"viseme":"DD","t0":1.85,"t1":1.92},     # t in "to"
-        {"viseme":"OU","t0":1.92,"t1":2.08},     # o in "to"
-        
-        {"viseme":"Silence","t0":2.08,"t1":2.18}, # brief pause
-        
-        {"viseme":"KK","t0":2.18,"t1":2.25},     # g in "grow"
-        {"viseme":"RR","t0":2.25,"t1":2.32},     # r in "grow"
-        {"viseme":"OH","t0":2.32,"t1":2.48},     # ow in "grow"
-        
-        {"viseme":"Silence","t0":2.48,"t1":2.62}, # pause
-        
-        {"viseme":"OU","t0":2.62,"t1":2.75},     # w in "well"
-        {"viseme":"E","t0":2.75,"t1":2.88},      # e in "well"
-        {"viseme":"NN","t0":2.88,"t1":2.95},     # l in "well"
-        
-        {"viseme":"Silence","t0":2.95,"t1":3.2}, # final pause
-        
-        # Second phrase: "Water flows through roots"
-        {"viseme":"OU","t0":3.2,"t1":3.28},      # w in "water"
-        {"viseme":"AA","t0":3.28,"t1":3.42},     # a in "water"
-        {"viseme":"DD","t0":3.42,"t1":3.48},     # t in "water"
-        {"viseme":"RR","t0":3.48,"t1":3.58},     # r in "water"
-        
-        {"viseme":"Silence","t0":3.58,"t1":3.75}, # pause
-        
-        {"viseme":"FF","t0":3.75,"t1":3.82},     # f in "flows"
-        {"viseme":"NN","t0":3.82,"t1":3.88},     # l in "flows"
-        {"viseme":"OH","t0":3.88,"t1":4.05},     # ow in "flows"
-        {"viseme":"SS","t0":4.05,"t1":4.15},     # s in "flows"
-        
-        {"viseme":"Silence","t0":4.15,"t1":4.32}, # pause
-        
-        {"viseme":"TH","t0":4.32,"t1":4.38},     # th in "through"
-        {"viseme":"RR","t0":4.38,"t1":4.45},     # r in "through"
-        {"viseme":"OU","t0":4.45,"t1":4.62},     # ough in "through"
-        
-        {"viseme":"Silence","t0":4.62,"t1":4.78}, # pause
-        
-        {"viseme":"RR","t0":4.78,"t1":4.85},     # r in "roots"
-        {"viseme":"OU","t0":4.85,"t1":4.98},     # oo in "roots"
-        {"viseme":"DD","t0":4.98,"t1":5.05},     # t in "roots"
-        {"viseme":"SS","t0":5.05,"t1":5.15},     # s in "roots"
-        
-        {"viseme":"Silence","t0":5.15,"t1":5.5}, # final silence
-    ]
+    import json
+    
+    with open('sample_visemes.json', 'r') as f:
+        sample_visemes = json.load(f)
     
     print("=== ROBUST LYRICS GENERATOR TEST ===")
     print(f"Total test duration: {sample_visemes[-1]['t1']:.1f} seconds")
