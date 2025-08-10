@@ -8,16 +8,7 @@ import re
 from typing import List, Dict, Tuple
 import os
 import json
-
-# Modal integration
-try:
-    import sys
-    sys.path.append('/Users/michelle.wei_x/Documents/dubio/utils')
-    from modal_worker_integrated import app, image
-    import modal
-    MODAL_AVAILABLE = True
-except ImportError:
-    MODAL_AVAILABLE = False
+import argparse
 
 # Viseme importance weights for scoring (based on visibility)
 VISEME_WEIGHTS = {
@@ -206,7 +197,7 @@ Format: Return only the phrases, one per line.
 Example for 4 syllables about math:
 - Add two plus three
 - Math is so fun  
-- Learn to sbtract
+- Learn to subtract
 - Count up to ten
 - Numbers are cool
 
@@ -336,150 +327,44 @@ def create_robust_educational_lipsync_lyrics(visemes: List[Dict], topic: str, op
     
     return word_entries
 
-# Replace the __main__ section with this more realistic test:
+def main():
+    """Main CLI entry point."""
+    parser = argparse.ArgumentParser(description="Generate educational lyrics from visemes")
+    parser.add_argument("input_file", help="Path to input JSON file with visemes")
+    parser.add_argument("output_file", help="Path to output JSON file for lyrics")
+    parser.add_argument("--topic", default="basic math", help="Educational topic for lyrics")
+    parser.add_argument("--api-key", help="OpenAI API key (or set OPENAI_API_KEY env var)")
+    
+    args = parser.parse_args()
+    
+    # Get API key
+    api_key = args.api_key or os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        print("Warning: No OpenAI API key provided. Using fallback mode.")
+        api_key = "fake-key"
+    
+    try:
+        # Load input visemes
+        with open(args.input_file, 'r') as f:
+            visemes = json.load(f)
+        print(f"Loaded {len(visemes)} visemes from {args.input_file}")
+        
+        # Generate lyrics
+        word_entries = create_robust_educational_lipsync_lyrics(
+            visemes=visemes,
+            topic=args.topic,
+            openai_api_key=api_key,
+            output_file=args.output_file
+        )
+        
+        print(f"Generated {len(word_entries)} words for topic: {args.topic}")
+        print(f"Output saved to: {args.output_file}")
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return 1
+    
+    return 0
 
 if __name__ == "__main__":
-    # More realistic viseme sequence with varied timing (like actual speech)
-    import json
-    
-    with open('lyricsgeneration/visemes_resonite_min_short.json', 'r') as f:
-        sample_visemes = json.load(f)
-    
-    print("=== ROBUST LYRICS GENERATOR TEST ===")
-    print(f"Total test duration: {sample_visemes[-1]['t1']:.1f} seconds")
-    print(f"Total visemes: {len(sample_visemes)}")
-    
-    chunks = chunk_for_educational_lyrics(sample_visemes, target_duration=2.5)
-    print(f"\nGenerated {len(chunks)} chunks:")
-    for i, chunk in enumerate(chunks):
-        viseme_summary = ' -> '.join(chunk['target_viseme_pattern'][:8])  # Show first 8
-        if len(chunk['target_viseme_pattern']) > 8:
-            viseme_summary += "..."
-        print(f"  Chunk {i+1}: {chunk['t0']:.2f}-{chunk['t1']:.2f}s ({chunk['duration']:.1f}s)")
-        print(f"    Visemes: {viseme_summary}")
-        print(f"    Est. syllables: {chunk['estimated_syllables']}")
-    
-    print("\n" + "="*60)
-    print("TESTING CANDIDATE GENERATION...")
-    
-    # Use the real API key from environment
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        print("⚠️  OPENAI_API_KEY not set, using fallback mode")
-        generator = RobustEducationalLyricGenerator("fake-key", "plant biology")
-    else:
-        print("✅ Using real OpenAI API key")
-        generator = RobustEducationalLyricGenerator(api_key, "plant biology")
-    
-    # Test each chunk individually
-    for i, chunk in enumerate(chunks):
-        print(f"\n--- CHUNK {i+1} ANALYSIS ---")
-        print(f"Target: {chunk['target_viseme_pattern']}")
-        print(f"Duration: {chunk['duration']:.1f}s, Syllables: {chunk['estimated_syllables']}")
-        
-        # Generate candidates
-        if api_key and api_key != "fake-key":
-            try:
-                candidates = generator._generate_candidate_lyrics(chunk, "plant biology")
-                print(f"AI Generated {len(candidates)} candidates:")
-                for j, candidate in enumerate(candidates):
-                    score = generator._score_candidate_simple(candidate, chunk)
-                    print(f"  {j+1}. '{candidate}' (score: {score:.2f})")
-            except Exception as e:
-                print(f"AI generation failed: {e}")
-                candidates = generator._fallback_candidates(chunk, "plant biology")
-                print(f"Fallback candidates:")
-                for j, candidate in enumerate(candidates):
-                    score = generator._score_candidate_simple(candidate, chunk)
-                    print(f"  {j+1}. '{candidate}' (score: {score:.2f})")
-        else:
-            candidates = generator._fallback_candidates(chunk, "plant biology")
-            print(f"Fallback candidates:")
-            for j, candidate in enumerate(candidates):
-                score = generator._score_candidate_simple(candidate, chunk)
-                print(f"  {j+1}. '{candidate}' (score: {score:.2f})")
-        
-        # Show best match
-        best_lyrics = generator._generate_best_matching_lyrics(chunk, "plant biology")
-        print(f"  → BEST: '{best_lyrics}'")
-    
-    print("\n" + "="*60)
-    print("TESTING FULL PIPELINE...")
-    
-    # Test the complete pipeline
-    topics_to_test = ["plant biology", "basic math", "water cycle"]
-    
-    for topic in topics_to_test:
-        print(f"\n--- TOPIC: {topic.upper()} ---")
-        if api_key and api_key != "fake-key":
-            try:
-                full_result = create_robust_educational_lipsync_lyrics(
-                    visemes=sample_visemes,
-                    topic=topic,
-                    openai_api_key=api_key
-                )
-                print(f"Result: {full_result}")
-                
-                # Analyze the result
-                words_with_times = re.findall(r'(\w+)\[([0-9.]+):([0-9.]+)\]', full_result)
-                print(f"Generated {len(words_with_times)} words:")
-                for word, start, end in words_with_times[:5]:  # Show first 5
-                    print(f"  '{word}' at {start}-{end}s")
-                if len(words_with_times) > 5:
-                    print(f"  ... and {len(words_with_times) - 5} more")
-                    
-            except Exception as e:
-                print(f"Full pipeline failed: {e}")
-        else:
-            print("Skipping AI generation - no API key")
-    
-    print(f"\n{'='*60}")
-    print("TEST COMPLETE!")
-
-    print("\n" + "="*60)
-    print("TESTING JSON OUTPUT...")
-    
-    # Test the complete pipeline with JSON output
-    topics_to_test = ["plant biology", "basic math"]
-    
-    for i, topic in enumerate(topics_to_test):
-        print(f"\n--- TOPIC: {topic.upper()} ---")
-        
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            api_key = "fake-key"
-        
-        try:
-            # Generate lyrics and save to JSON
-            output_filename = f"lyrics_{topic.replace(' ', '_')}.json"
-            word_entries = create_robust_educational_lipsync_lyrics(
-                visemes=sample_visemes,
-                topic=topic,
-                openai_api_key=api_key,
-                output_file=output_filename
-            )
-            
-            print(f"Generated {len(word_entries)} words")
-            print("Sample output:")
-            for j, entry in enumerate(word_entries[:5]):  # Show first 5
-                print(f"  {j+1}. {entry}")
-            if len(word_entries) > 5:
-                print(f"  ... and {len(word_entries) - 5} more words")
-            
-            # Also print the JSON structure
-            print(f"\nJSON structure preview:")
-            print(json.dumps(word_entries[:3], indent=2))
-            
-        except Exception as e:
-            print(f"Pipeline failed: {e}")
-    
-    print(f"\n{'='*60}")
-    print("JSON OUTPUT TEST COMPLETE!")
-    print("Check the generated .json files in the current directory")
-
-# Modal function registration
-if MODAL_AVAILABLE:
-    @app.function(image=image, cpu=1, timeout=600)
-    def generate_lyrics_from_visemes(visemes: list):
-        """Modal wrapper for chunk_for_educational_lyrics"""
-        return chunk_for_educational_lyrics(visemes, target_duration=3.0)
+    exit(main())
