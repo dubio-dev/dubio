@@ -6,9 +6,9 @@
     "generated_audio_path": "outputs/generated/lyrics_basic_math.mp3",
     "cfm_latent_path": "outputs/cfm_latents/lyrics_basic_math.pt",
     "original_audio_path": "inputs/lyrics_basic_math.mp3",
-    "original_duration": 30.0,
+    "original_duration": 48.0,
     "generated_duration": 232.19954648526078,
-    "trimmed_duration": 30.0,
+    "trimmed_duration": 48.0,
     "lrc_path": "inputs/lyrics_basic_math.json",
     "process_index": 0,
     "sample_kwargs": "{'batch_infer_num': 1, 'cfg_range': [0.05, 1], 'dual_cfg': [4.7, 2.6], 'steps': 50}",
@@ -16,7 +16,7 @@
     "use_chunked_decoding": true,
     "latent_type": "cfm_sampled",
     "start_time": 0.0,
-    "duration_abs": 0.5521491765975952,
-    "duration_rel": 0.1289999932050705
+    "duration_abs": 0.6257930397987366,
+    "duration_rel": 0.20640000700950623
   }
 ]
