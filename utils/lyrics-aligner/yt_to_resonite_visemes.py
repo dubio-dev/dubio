@@ -18,7 +18,6 @@ import subprocess
 import json
 import re
 import sys
-import shutil
 import os
 import argparse
 
