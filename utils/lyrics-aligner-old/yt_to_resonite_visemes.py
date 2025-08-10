@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 """
-YouTube to Resonite Visemes Pipeline
+yt_to_resonite_visemes_minimal_cmudict.py
 
+- Hardcoded YouTube URL
 - Downloads audio (wav) + English auto-captions (yt-dlp + ffmpeg)
 - Converts captions to text
-- Runs lyrics-aligner to get time-stamped phonemes
-- Maps CMUdict ARPAbet phonemes to minimal Resonite viseme set:
+- Runs local lyrics-aligner (python -m lyrics_aligner) to get time-stamped phonemes
+- STRICTLY maps **CMUdict 39-phone ARPAbet** (stress stripped) to the minimal Resonite viseme set:
   {AA, CH, DD, E, FF, IH, KK, NN, OH, OU, PP, RR, SS, TH, Silence}
 
 Outputs:
-- phonemes.json: Raw phoneme timing data
-- visemes_resonite_min.json: Final viseme data with timing
+- out/phonemes.json
+- out/visemes_resonite_min.json
+
+To run:
+    uv run yt_to_resonite_visemes_minimal_cmudict.py
 """
 
 from pathlib import Path
@@ -20,14 +24,15 @@ import re
 import sys
 import shutil
 import os
-import argparse
 
 # ---------------- Configuration ----------------
-DEFAULT_YOUTUBE_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+YOUTUBE_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"  # change this
 OUTDIR = Path("out")
 LANGUAGE = "en"
+ALIGNER_CMD = ["python", "lyrics-aligner/align.py"]
 
 # ---------------- CMUdict phones (39, stressless) ----------------
+# Reference set (no stress digits)
 CMU_PHONES = [
     "AA","AE","AH","AO","AW","AY","EH","ER","EY","IH","IY","OW","OY","UH","UW",
     "B","CH","D","DH","F","G","HH","JH","K","L","M","N","NG","P","R","S","SH",
@@ -35,33 +40,43 @@ CMU_PHONES = [
 ]
 
 # ---------------- Minimal Resonite Viseme Mapping ----------------
+# Target visemes: AA, CH, DD, E, FF, IH, KK, NN, OH, OU, PP, RR, SS, TH, Silence
+# Grouping rationale:
+# - Stops and closures: PP (P,B,M), DD (T,D), KK (K,G)
+# - Fricatives/affricates: FF (F,V), TH (TH,DH), SS (S,Z), CH (SH,ZH,CH,JH)
+# - Sonorants: NN (N,NG,L), RR (R), glides W→OU (rounded), Y→IH (high-front)
+# - Vowels clustered by mouth shape: AA={AA,AE,AH}, E={EH,ER,EY}, IH={IH,IY},
+#   OH={AO,OW,OY}, OU={UH,UW}, diphthongs AY→AA, AW→OU.
 STRESS_RE = re.compile(r"[0-2]$")
 
 ARPABET_TO_VISEME = {
-    # Silence bucket
+    # Silence bucket (aligner-specific tokens may show; CMUdict itself doesn't include them)
     "SIL": "Silence", "SP": "Silence", "NSN": "Silence", "BR": "Silence", "PAU": "Silence",
-    # PP (lip closure)
+    # PP
     "P": "PP", "B": "PP", "M": "PP",
-    # FF (lip-teeth contact)
+    # FF
     "F": "FF", "V": "FF",
-    # TH (tongue-teeth)
+    # TH
     "TH": "TH", "DH": "TH",
-    # DD (tongue tip)
+    # DD
     "T": "DD", "D": "DD",
-    # SS (sibilants)
+    # SS
     "S": "SS", "Z": "SS",
-    # CH (tongue shapes)
+    # CH
     "SH": "CH", "ZH": "CH", "CH": "CH", "JH": "CH",
-    # KK (back tongue)
+    # KK
     "K": "KK", "G": "KK",
-    # NN (nasal/lateral)
+    # NN
     "N": "NN", "NG": "NN", "L": "NN",
-    # RR (r-sounds)
+    # RR
     "R": "RR",
     # Glides
-    "W": "OU", "Y": "IH", "HH": "E",
+    "W": "OU",
+    "Y": "IH",
+    "HH": "E",
     # Vowels
-    "AA": "AA", "AE": "AA", "AH": "AA", "AY": "AA",
+    "AA": "AA", "AE": "AA", "AH": "AA",
+    "AY": "AA",          # starts with open 'a' shape
     "EH": "E", "ER": "E", "EY": "E",
     "IH": "IH", "IY": "IH",
     "AO": "OH", "OW": "OH", "OY": "OH",
@@ -77,25 +92,41 @@ def load_cmu_dictionary():
         import nltk
         from nltk.corpus import cmudict
         
-        # Set NLTK data path if environment variable is set
-        nltk_data_path = os.getenv('NLTK_DATA')
-        if nltk_data_path:
-            nltk.data.path.insert(0, nltk_data_path)
-        
-        # Try to load CMU dictionary, download if needed
+        # Download CMU dictionary if not already downloaded
         try:
             cmudict.words()
         except LookupError:
-            print("[INFO] Downloading CMU dictionary...")
-            if nltk_data_path:
-                nltk.download('cmudict', download_dir=nltk_data_path)
-            else:
-                nltk.download('cmudict')
+            nltk.download('cmudict')
         
         return cmudict.dict()
     except ImportError:
         print("[WARN] nltk not available, using fallback dictionary")
         return None
+
+def create_word_to_phonemes_dict(words, cmu_dict=None):
+    """Create word-to-phonemes mapping for given words using CMU dictionary"""
+    if cmu_dict is None:
+        cmu_dict = load_cmu_dictionary()
+    
+    word2phonemes = {}
+    
+    for word in words:
+        word_lower = word.lower()
+        
+        if cmu_dict and word_lower in cmu_dict:
+            # Get the first pronunciation (most common)
+            phonemes = cmu_dict[word_lower][0]
+            # Remove stress markers (0, 1, 2)
+            phonemes = [p.rstrip('012') for p in phonemes]
+            # Convert to space-separated string as expected by lyrics-aligner
+            word2phonemes[word_lower] = ' '.join(phonemes)
+        else:
+            # Fallback: simple phonetic approximation
+            # This is a very basic fallback - for production use, you'd want a better solution
+            print(f"[WARN] Word '{word}' not found in CMU dictionary, using fallback")
+            word2phonemes[word_lower] = "AH"  # Default to schwa sound
+    
+    return word2phonemes
 
 def extract_words_from_text(text_file):
     """Extract unique words from a text file"""
@@ -109,9 +140,55 @@ def extract_words_from_text(text_file):
     return sorted(list(words))
 
 def setup_lyrics_aligner():
-    """Basic setup - just ensure output directory exists"""
-    ensure_dir(OUTDIR)
-    print("[INFO] Setup complete - using built-in phoneme alignment")
+    """Set up the required word-to-phoneme dictionary for lyrics-aligner"""
+    import pickle
+    
+    # Check if the required file already exists
+    word2phonemes_file = Path("lyrics-aligner/files/youtube_word2phonemes.pickle")
+    if word2phonemes_file.exists():
+        return
+    
+    # Extract words from the captions file
+    captions_file = OUTDIR / "captions.txt"
+    if not captions_file.exists():
+        print("[WARN] Captions file not found, creating basic dictionary")
+        # Create a minimal dictionary with common words
+        words = ["the", "a", "and", "to", "of", "in", "it", "that", "with", "for", "not", "on", "at", "this", "but", "they", "have", "from", "or", "an", "each", "which", "she", "do", "how", "their", "if", "will", "up", "out", "many", "then", "them", "these", "so", "some", "her", "would", "make", "like", "into", "him", "time", "two", "more", "go", "no", "way", "could", "my", "than", "first", "been", "call", "who", "its", "now", "find", "long", "down", "day", "did", "get", "come", "made", "may", "part"]
+    else:
+        words = extract_words_from_text(captions_file)
+    
+    # Create word-to-phoneme mapping
+    word2phonemes = create_word_to_phonemes_dict(words)
+    
+    # Save the dictionary
+    with open(word2phonemes_file, 'wb') as f:
+        pickle.dump(word2phonemes, f)
+    
+    print(f"[SETUP] Created word-to-phoneme dictionary with {len(word2phonemes)} words: {word2phonemes_file}")
+    
+    # Debug: Show some word-to-phoneme mappings
+    print("\n[DEBUG] Sample word-to-phoneme mappings:")
+    sample_words = list(word2phonemes.keys())[:10]  # Show first 10 words
+    for word in sample_words:
+        phonemes = word2phonemes[word]
+        print(f"  '{word}' -> {phonemes}")
+    
+    # Debug: Show how captions would be converted
+    print("\n[DEBUG] Sample caption conversion:")
+    with open(captions_file, 'r', encoding='utf-8') as f:
+        caption_lines = f.readlines()[:5]  # Show first 5 lines
+    
+    for line in caption_lines:
+        line = line.strip()
+        if line:
+            words_in_line = line.lower().split()
+            phonemes_in_line = []
+            for word in words_in_line:
+                if word in word2phonemes:
+                    phonemes_in_line.extend(word2phonemes[word])
+                else:
+                    phonemes_in_line.append("AH")  # Fallback
+            print(f"  '{line}' -> {phonemes_in_line}")
 
 def run(cmd):
     print("[RUN]", " ".join(map(str, cmd)))
@@ -174,81 +251,78 @@ def captions_to_text(sub_path: Path):
     return lines
 
 def run_lyrics_aligner(audio_path: Path, lyrics_path: Path, out_json: Path):
-    """Run phoneme alignment using built-in logic instead of external lyrics-aligner"""
-    print("[INFO] Running built-in phoneme alignment...")
+    # Create temporary directories for lyrics-aligner
+    temp_audio_dir = OUTDIR / "temp_audio"
+    temp_lyrics_dir = OUTDIR / "temp_lyrics"
+    ensure_dir(temp_audio_dir)
+    ensure_dir(temp_lyrics_dir)
     
-    # Read the lyrics
-    with open(lyrics_path, 'r', encoding='utf-8') as f:
-        text = f.read().strip()
+    # Copy audio file to temp directory with expected name
+    audio_name = audio_path.stem
+    temp_audio_file = temp_audio_dir / f"{audio_name}.wav"
+    shutil.copy2(audio_path, temp_audio_file)
     
-    # Get audio duration using ffprobe
+    # Copy lyrics file to temp directory with expected name
+    temp_lyrics_file = temp_lyrics_dir / f"{audio_name}.txt"
+    shutil.copy2(lyrics_path, temp_lyrics_file)
+    
+    # Resolve absolute input directories (since we chdir below)
+    abs_audio_dir = str(temp_audio_dir.resolve())
+    abs_lyrics_dir = str(temp_lyrics_dir.resolve())
+    print(f"[DEBUG] Aligner inputs:\n  audio_dir={abs_audio_dir}\n  lyrics_dir={abs_lyrics_dir}")
+    
+    # Run lyrics-aligner with directory paths
+    cmd = ["python", "align.py", abs_audio_dir, abs_lyrics_dir, "--lyrics-format", "w", "--onsets", "p", "--dataset-name", "youtube"]
+    
+    # Change to lyrics-aligner directory to run the script
+    original_cwd = Path.cwd()
     try:
-        cmd = ["ffprobe", "-i", str(audio_path), "-show_entries", "format=duration", "-v", "quiet", "-of", "csv=p=0"]
-        duration = float(subprocess.check_output(cmd).decode().strip())
-        print(f"[INFO] Audio duration: {duration:.2f} seconds")
-    except Exception as e:
-        print(f"[WARN] Could not get audio duration: {e}")
-        duration = 30.0  # Default fallback
+        os.chdir("lyrics-aligner")
+        run(cmd)
+    finally:
+        os.chdir(original_cwd)
     
-    # Process text to phonemes
-    phonemes = align_text_to_phonemes(text, duration)
+    # Convert the output text file to JSON format
+    output_txt = Path("lyrics-aligner/outputs/youtube/phoneme_onsets") / f"{audio_name}.txt"
+    if output_txt.exists():
+        convert_phoneme_txt_to_json(output_txt, out_json)
+    else:
+        raise FileNotFoundError(f"Expected output file {output_txt} not found")
     
-    # Save phoneme data
-    with open(out_json, 'w', encoding='utf-8') as f:
-        json.dump(phonemes, f, indent=2)
-    
-    print(f"[INFO] Generated {len(phonemes)} phoneme segments")
+    # Clean up temp directories
+    shutil.rmtree(temp_audio_dir)
+    shutil.rmtree(temp_lyrics_dir)
 
-def align_text_to_phonemes(text: str, duration: float) -> list:
-    """Convert text to timed phoneme segments using CMU dictionary"""
-    # Clean and split text into words
-    words = re.findall(r'\b[a-zA-Z]+\b', text.lower())
-    if not words:
-        return []
+def convert_phoneme_txt_to_json(txt_path: Path, json_path: Path):
+    """Convert lyrics-aligner text output to JSON format"""
+    result = []
+    with open(txt_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
     
-    # Load CMU dictionary for phoneme lookup
-    cmu_dict = load_cmu_dictionary()
+    for i, line in enumerate(lines):
+        parts = line.strip().split('\t')
+        if len(parts) >= 2:
+            phoneme = parts[0]
+            start_time = float(parts[1])
+            
+            # Calculate end time (use next phoneme's start time, or add 0.1s if last)
+            if i + 1 < len(lines):
+                next_parts = lines[i + 1].strip().split('\t')
+                if len(next_parts) >= 2:
+                    end_time = float(next_parts[1])
+                else:
+                    end_time = start_time + 0.1
+            else:
+                end_time = start_time + 0.1
+            
+            result.append({
+                "t0": start_time,
+                "t1": end_time,
+                "phoneme": phoneme
+            })
     
-    # Convert words to phonemes
-    all_phonemes = []
-    for word in words:
-        word_phonemes = get_word_phonemes(word, cmu_dict)
-        all_phonemes.extend(word_phonemes)
-    
-    if not all_phonemes:
-        return []
-    
-    # Distribute phonemes evenly across the audio duration
-    phoneme_duration = duration / len(all_phonemes)
-    
-    # Create timed phoneme segments
-    phoneme_segments = []
-    current_time = 0.0
-    
-    for phoneme in all_phonemes:
-        start_time = current_time
-        end_time = current_time + phoneme_duration
-        
-        phoneme_segments.append({
-            "t0": round(start_time, 3),
-            "t1": round(end_time, 3),
-            "phoneme": phoneme
-        })
-        
-        current_time = end_time
-    
-    return phoneme_segments
-
-def get_word_phonemes(word: str, cmu_dict=None) -> list:
-    """Get phonemes for a word using CMU dictionary with simple fallback"""
-    if cmu_dict and word in cmu_dict:
-        # Get the first pronunciation and remove stress markers
-        phonemes = cmu_dict[word][0]
-        return [p.rstrip('012') for p in phonemes]
-    
-    # Fallback: simple phonetic approximation - just use schwa sound
-    print(f"[WARN] Word '{word}' not found in CMU dictionary, using fallback")
-    return ["AH"]  # Default to schwa sound
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(result, f, indent=2)
 
 def normalize_phone(p: str) -> str:
     p = (p or "").strip().upper()
@@ -292,95 +366,26 @@ def to_minimal_visemes(phoneme_json: Path, out_json: Path):
     if missing:
         print("[WARN] Unrecognized phones encountered (mapped to 'E'):", ", ".join(sorted(missing)), file=sys.stderr)
 
-def process_youtube_to_visemes(youtube_url: str, max_duration: int = None) -> list:
-    """
-    Main processing function: YouTube URL -> Visemes
-    
-    Args:
-        youtube_url: YouTube video URL
-        max_duration: Optional max duration in seconds
-        
-    Returns:
-        List of viseme dictionaries with timing
-    """
-    
-    try:
-        # Step 1: Download audio and captions
-        print(f"[1/4] Downloading audio and captions from: {youtube_url}")
-        audio, subs = download_audio_and_captions(youtube_url, OUTDIR, LANGUAGE)
-
-        # Step 2: Extract and clean captions
-        print("[2/4] Processing captions...")
-        lyrics_txt = OUTDIR / "captions.txt"
-        captions_lines = captions_to_text(subs)
-        cleaned_captions = [line.replace("'", "") for line in captions_lines]
-        lyrics_txt.write_text("\n".join(cleaned_captions), encoding="utf-8")
-        print(f"[OK] Captions saved to: {lyrics_txt}")
-
-        # Step 3: Set up lyrics aligner and run phoneme alignment
-        print("[3/4] Running phoneme alignment...")
-        setup_lyrics_aligner()
-        
-        phonemes_json = OUTDIR / "phonemes.json"
-        run_lyrics_aligner(audio, lyrics_txt, phonemes_json)
-        print(f"[OK] Phonemes saved to: {phonemes_json}")
-
-        # Step 4: Convert phonemes to visemes
-        print("[4/4] Converting phonemes to visemes...")
-        visemes_json = OUTDIR / "visemes_resonite_min.json"
-        to_minimal_visemes(phonemes_json, visemes_json)
-        print(f"[DONE] Visemes saved to: {visemes_json}")
-        
-        # Load and return visemes
-        with open(visemes_json, 'r') as f:
-            visemes = json.load(f)
-        
-        # Truncate to max_duration if specified
-        if max_duration:
-            truncated = []
-            for item in visemes:
-                if item['t0'] < max_duration:
-                    item['t1'] = min(item['t1'], max_duration)
-                    truncated.append(item)
-                else:
-                    break
-            visemes = truncated
-            print(f"[INFO] Truncated to {max_duration}s: {len(truncated)} visemes")
-        
-        return visemes
-        
-    except Exception as e:
-        print(f"[ERROR] Processing failed: {e}")
-        raise
-
 def main():
-    """Main CLI entry point."""
-    parser = argparse.ArgumentParser(description="Extract visemes from YouTube video")
-    parser.add_argument("youtube_url", nargs='?', default=DEFAULT_YOUTUBE_URL, 
-                       help="YouTube video URL")
-    parser.add_argument("--max-duration", type=int, help="Maximum duration in seconds")
-    parser.add_argument("--output", help="Output JSON file path (default: out/visemes_resonite_min.json)")
-    
-    args = parser.parse_args()
-    
-    try:
-        # Process YouTube video to visemes
-        visemes = process_youtube_to_visemes(args.youtube_url, args.max_duration)
-        
-        # Save to custom output file if specified
-        if args.output:
-            with open(args.output, 'w') as f:
-                json.dump(visemes, f, indent=2)
-            print(f"Visemes also saved to: {args.output}")
-        
-        print(f"\n✅ Successfully extracted {len(visemes)} visemes")
-        print(f"Duration: {visemes[-1]['t1']:.1f} seconds" if visemes else "No visemes generated")
-        
-    except Exception as e:
-        print(f"Error: {e}")
-        return 1
-    
-    return 0
+    audio, subs = download_audio_and_captions(YOUTUBE_URL, OUTDIR, LANGUAGE)
+
+    lyrics_txt = OUTDIR / "captions.txt"
+    captions_lines = captions_to_text(subs)
+    # Clean captions text by removing apostrophes to handle contractions
+    cleaned_captions = [line.replace("'", "") for line in captions_lines]
+    lyrics_txt.write_text("\n".join(cleaned_captions), encoding="utf-8")
+    print("[OK] Captions ->", lyrics_txt)
+
+    # Set up lyrics-aligner after captions are created so we can extract words from them
+    setup_lyrics_aligner()
+
+    phonemes_json = OUTDIR / "phonemes.json"
+    run_lyrics_aligner(audio, lyrics_txt, phonemes_json)
+    print("[OK] Aligned phonemes ->", phonemes_json)
+
+    visemes_json = OUTDIR / "visemes_resonite_min.json"
+    to_minimal_visemes(phonemes_json, visemes_json)
+    print("[DONE] Minimal visemes ->", visemes_json)
 
 if __name__ == "__main__":
-    exit(main())
+    main()

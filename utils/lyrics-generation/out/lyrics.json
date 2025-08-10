@@ -1,1922 +1,1572 @@
 [
   {
-    "start": 7.17,
-    "end": 7.935,
-    "word": "Divide"
-  },
-  {
-    "start": 7.935,
-    "end": 8.7,
-    "word": "to"
-  },
-  {
-    "start": 8.7,
-    "end": 9.465,
-    "word": "share"
-  },
-  {
-    "start": 9.465,
-    "end": 10.23,
-    "word": "fair"
-  },
-  {
-    "start": 10.23,
-    "end": 10.832,
-    "word": "Multiply"
-  },
-  {
-    "start": 10.832,
-    "end": 11.434,
-    "word": "to"
-  },
-  {
-    "start": 11.434,
-    "end": 12.036,
-    "word": "find"
-  },
-  {
-    "start": 12.036,
-    "end": 12.638,
-    "word": "the"
-  },
-  {
-    "start": 12.638,
-    "end": 13.24,
-    "word": "sum"
-  },
-  {
-    "start": 13.24,
-    "end": 13.783,
-    "word": "Let's"
-  },
-  {
-    "start": 13.783,
-    "end": 14.326,
-    "word": "multiply,"
-  },
-  {
-    "start": 14.326,
-    "end": 14.869,
-    "word": "divide,"
-  },
-  {
-    "start": 14.869,
-    "end": 15.412,
-    "word": "subtract"
-  },
-  {
-    "start": 15.412,
-    "end": 15.955,
-    "word": "and"
-  },
-  {
-    "start": 15.955,
-    "end": 16.498,
-    "word": "add"
-  },
-  {
-    "start": 16.5,
-    "end": 17.033,
-    "word": "Multiply"
-  },
-  {
-    "start": 17.033,
-    "end": 17.566,
-    "word": "to"
-  },
-  {
-    "start": 17.566,
-    "end": 18.099,
-    "word": "find"
-  },
-  {
-    "start": 18.099,
-    "end": 18.632,
-    "word": "the"
-  },
-  {
-    "start": 18.632,
-    "end": 19.165,
-    "word": "total"
-  },
-  {
-    "start": 19.165,
-    "end": 19.698,
-    "word": "sum"
-  },
-  {
-    "start": 19.7,
-    "end": 20.207,
-    "word": "Division"
-  },
-  {
-    "start": 20.207,
-    "end": 20.714,
-    "word": "splits"
-  },
-  {
-    "start": 20.714,
-    "end": 21.221,
-    "word": "things"
-  },
-  {
-    "start": 21.221,
-    "end": 21.728,
-    "word": "into"
-  },
-  {
-    "start": 21.728,
-    "end": 22.235,
-    "word": "equal"
-  },
-  {
-    "start": 22.235,
-    "end": 22.742,
-    "word": "parts"
-  },
-  {
-    "start": 22.74,
-    "end": 23.187,
-    "word": "Add"
-  },
-  {
-    "start": 23.187,
-    "end": 23.634,
-    "word": "and"
-  },
-  {
-    "start": 23.634,
-    "end": 24.081,
-    "word": "subtract,"
-  },
-  {
-    "start": 24.081,
-    "end": 24.528,
-    "word": "the"
-  },
-  {
-    "start": 24.528,
-    "end": 24.975,
-    "word": "basics"
-  },
-  {
-    "start": 24.975,
-    "end": 25.422,
-    "word": "of"
-  },
-  {
-    "start": 25.422,
-    "end": 25.869,
-    "word": "math"
-  },
-  {
-    "start": 25.9,
-    "end": 26.514,
+    "start": 0.0,
+    "end": 6.247,
     "word": "Math"
   },
   {
-    "start": 26.514,
-    "end": 27.128,
+    "start": 6.247,
+    "end": 12.494,
     "word": "is"
   },
   {
-    "start": 27.128,
-    "end": 27.742,
-    "word": "all"
+    "start": 12.494,
+    "end": 18.741,
+    "word": "fun"
   },
   {
-    "start": 27.742,
-    "end": 28.356,
-    "word": "about"
+    "start": 18.74,
+    "end": 19.366,
+    "word": "Learn"
   },
   {
-    "start": 28.356,
-    "end": 28.97,
-    "word": "logic"
+    "start": 19.366,
+    "end": 19.992,
+    "word": "to"
   },
   {
-    "start": 28.97,
-    "end": 29.427,
-    "word": "Let's"
-  },
-  {
-    "start": 29.427,
-    "end": 29.884,
+    "start": 19.992,
+    "end": 20.618,
     "word": "add"
   },
   {
-    "start": 29.884,
-    "end": 30.341,
+    "start": 20.618,
+    "end": 21.244,
     "word": "and"
   },
   {
-    "start": 30.341,
-    "end": 30.798,
+    "start": 21.244,
+    "end": 21.87,
     "word": "subtract"
   },
   {
-    "start": 30.798,
-    "end": 31.255,
-    "word": "numbers"
-  },
-  {
-    "start": 31.255,
-    "end": 31.712,
-    "word": "with"
-  },
-  {
-    "start": 31.712,
-    "end": 32.169,
-    "word": "ease"
-  },
-  {
-    "start": 32.17,
-    "end": 32.685,
-    "word": "Fractions"
-  },
-  {
-    "start": 32.685,
-    "end": 33.2,
-    "word": "show"
-  },
-  {
-    "start": 33.2,
-    "end": 33.715,
-    "word": "parts"
-  },
-  {
-    "start": 33.715,
-    "end": 34.23,
-    "word": "of"
-  },
-  {
-    "start": 34.23,
-    "end": 34.745,
-    "word": "a"
-  },
-  {
-    "start": 34.745,
-    "end": 35.26,
-    "word": "whole"
-  },
-  {
-    "start": 35.26,
-    "end": 35.872,
-    "word": "Division"
-  },
-  {
-    "start": 35.872,
-    "end": 36.484,
-    "word": "splits"
-  },
-  {
-    "start": 36.484,
-    "end": 37.096,
-    "word": "things"
-  },
-  {
-    "start": 37.096,
-    "end": 37.708,
-    "word": "into"
-  },
-  {
-    "start": 37.708,
-    "end": 38.32,
-    "word": "parts"
-  },
-  {
-    "start": 38.32,
-    "end": 38.83,
-    "word": "Addition"
-  },
-  {
-    "start": 38.83,
-    "end": 39.34,
-    "word": "is"
-  },
-  {
-    "start": 39.34,
-    "end": 39.85,
-    "word": "key,"
-  },
-  {
-    "start": 39.85,
-    "end": 40.36,
-    "word": "start"
-  },
-  {
-    "start": 40.36,
-    "end": 40.87,
-    "word": "with"
-  },
-  {
-    "start": 40.87,
-    "end": 41.38,
-    "word": "plus"
-  },
-  {
-    "start": 41.38,
-    "end": 41.767,
-    "word": "Let's"
-  },
-  {
-    "start": 41.767,
-    "end": 42.154,
-    "word": "add"
-  },
-  {
-    "start": 42.154,
-    "end": 42.541,
-    "word": "and"
-  },
-  {
-    "start": 42.541,
-    "end": 42.928,
-    "word": "subtract"
-  },
-  {
-    "start": 42.928,
-    "end": 43.316,
-    "word": "with"
-  },
-  {
-    "start": 43.316,
-    "end": 43.704,
-    "word": "numbers"
-  },
-  {
-    "start": 43.704,
-    "end": 44.091,
-    "word": "today,"
-  },
-  {
-    "start": 44.091,
-    "end": 44.478,
-    "word": "hooray"
-  },
-  {
-    "start": 44.48,
-    "end": 44.866,
-    "word": "Mathematics"
-  },
-  {
-    "start": 44.866,
-    "end": 45.252,
-    "word": "is"
-  },
-  {
-    "start": 45.252,
-    "end": 45.638,
-    "word": "essential,"
-  },
-  {
-    "start": 45.638,
-    "end": 46.024,
-    "word": "in"
-  },
-  {
-    "start": 46.024,
-    "end": 46.41,
-    "word": "every"
-  },
-  {
-    "start": 46.41,
-    "end": 46.796,
-    "word": "aspect,"
-  },
-  {
-    "start": 46.796,
-    "end": 47.182,
-    "word": "it's"
-  },
-  {
-    "start": 47.182,
-    "end": 47.568,
-    "word": "key"
-  },
-  {
-    "start": 47.57,
-    "end": 48.17,
-    "word": "Let's"
-  },
-  {
-    "start": 48.17,
-    "end": 48.77,
-    "word": "divide"
-  },
-  {
-    "start": 48.77,
-    "end": 49.37,
-    "word": "twelve"
-  },
-  {
-    "start": 49.37,
-    "end": 49.97,
-    "word": "by"
-  },
-  {
-    "start": 49.97,
-    "end": 50.57,
-    "word": "three"
-  },
-  {
-    "start": 50.57,
-    "end": 50.871,
-    "word": "Numbers"
-  },
-  {
-    "start": 50.871,
-    "end": 51.172,
-    "word": "are"
-  },
-  {
-    "start": 51.172,
-    "end": 51.473,
-    "word": "everywhere,"
-  },
-  {
-    "start": 51.473,
-    "end": 51.774,
-    "word": "in"
-  },
-  {
-    "start": 51.774,
-    "end": 52.075,
-    "word": "shapes"
-  },
-  {
-    "start": 52.075,
-    "end": 52.376,
-    "word": "and"
-  },
-  {
-    "start": 52.376,
-    "end": 52.677,
-    "word": "patterns,"
-  },
-  {
-    "start": 52.677,
-    "end": 52.978,
-    "word": "counting"
-  },
-  {
-    "start": 52.978,
-    "end": 53.279,
-    "word": "is"
-  },
-  {
-    "start": 53.279,
-    "end": 53.58,
-    "word": "key"
-  },
-  {
-    "start": 53.58,
-    "end": 54.092,
-    "word": "Math"
-  },
-  {
-    "start": 54.092,
-    "end": 54.604,
-    "word": "helps"
-  },
-  {
-    "start": 54.604,
-    "end": 55.116,
-    "word": "us"
-  },
-  {
-    "start": 55.116,
-    "end": 55.628,
-    "word": "solve"
-  },
-  {
-    "start": 55.628,
-    "end": 56.14,
-    "word": "real-world"
-  },
-  {
-    "start": 56.14,
-    "end": 56.652,
-    "word": "problems"
-  },
-  {
-    "start": 56.65,
-    "end": 57.193,
-    "word": "Multiply"
-  },
-  {
-    "start": 57.193,
-    "end": 57.736,
-    "word": "to"
-  },
-  {
-    "start": 57.736,
-    "end": 58.279,
-    "word": "find"
-  },
-  {
-    "start": 58.279,
-    "end": 58.822,
-    "word": "the"
-  },
-  {
-    "start": 58.822,
-    "end": 59.365,
-    "word": "total"
-  },
-  {
-    "start": 59.365,
-    "end": 59.908,
-    "word": "sum"
-  },
-  {
-    "start": 59.91,
-    "end": 60.433,
-    "word": "Multiply"
-  },
-  {
-    "start": 60.433,
-    "end": 60.956,
-    "word": "to"
-  },
-  {
-    "start": 60.956,
-    "end": 61.479,
-    "word": "find"
-  },
-  {
-    "start": 61.479,
-    "end": 62.002,
-    "word": "the"
-  },
-  {
-    "start": 62.002,
-    "end": 62.525,
-    "word": "total"
-  },
-  {
-    "start": 62.525,
-    "end": 63.048,
-    "word": "sum"
-  },
-  {
-    "start": 63.05,
-    "end": 64.1,
-    "word": "Subtract"
-  },
-  {
-    "start": 64.1,
-    "end": 65.15,
-    "word": "with"
-  },
-  {
-    "start": 65.15,
-    "end": 66.2,
-    "word": "numbers"
-  },
-  {
-    "start": 66.2,
-    "end": 67.25,
-    "word": "Add"
-  },
-  {
-    "start": 67.25,
-    "end": 68.3,
-    "word": "and"
-  },
-  {
-    "start": 68.3,
-    "end": 69.35,
-    "word": "subtract"
-  },
-  {
-    "start": 69.35,
-    "end": 69.727,
-    "word": "Count"
-  },
-  {
-    "start": 69.727,
-    "end": 70.105,
-    "word": "and"
-  },
-  {
-    "start": 70.105,
-    "end": 70.483,
-    "word": "multiply,"
-  },
-  {
-    "start": 70.483,
-    "end": 70.861,
-    "word": "divide"
-  },
-  {
-    "start": 70.861,
-    "end": 71.239,
-    "word": "and"
-  },
-  {
-    "start": 71.239,
-    "end": 71.617,
-    "word": "add"
-  },
-  {
-    "start": 71.617,
-    "end": 71.995,
-    "word": "with"
-  },
-  {
-    "start": 71.995,
-    "end": 72.373,
-    "word": "glee"
-  },
-  {
-    "start": 72.37,
-    "end": 72.745,
-    "word": "Counting"
-  },
-  {
-    "start": 72.745,
-    "end": 73.12,
-    "word": "numbers"
-  },
-  {
-    "start": 73.12,
-    "end": 73.495,
-    "word": "is"
-  },
-  {
-    "start": 73.495,
-    "end": 73.87,
-    "word": "the"
-  },
-  {
-    "start": 73.87,
-    "end": 74.245,
-    "word": "first"
-  },
-  {
-    "start": 74.245,
-    "end": 74.62,
-    "word": "step"
-  },
-  {
-    "start": 74.62,
-    "end": 74.995,
-    "word": "to"
-  },
-  {
-    "start": 74.995,
-    "end": 75.37,
-    "word": "math"
-  },
-  {
-    "start": 75.37,
-    "end": 75.754,
-    "word": "Counting"
-  },
-  {
-    "start": 75.754,
-    "end": 76.138,
-    "word": "helps"
-  },
-  {
-    "start": 76.138,
-    "end": 76.522,
-    "word": "us"
-  },
-  {
-    "start": 76.522,
-    "end": 76.906,
-    "word": "to"
-  },
-  {
-    "start": 76.906,
-    "end": 77.29,
-    "word": "solve"
-  },
-  {
-    "start": 77.29,
-    "end": 77.674,
-    "word": "problems"
-  },
-  {
-    "start": 77.674,
-    "end": 78.058,
-    "word": "with"
-  },
-  {
-    "start": 78.058,
-    "end": 78.442,
-    "word": "ease"
-  },
-  {
-    "start": 78.44,
-    "end": 78.877,
-    "word": "Addition"
-  },
-  {
-    "start": 78.877,
-    "end": 79.314,
-    "word": "is"
-  },
-  {
-    "start": 79.314,
-    "end": 79.751,
-    "word": "easy,"
-  },
-  {
-    "start": 79.751,
-    "end": 80.188,
-    "word": "just"
-  },
-  {
-    "start": 80.188,
-    "end": 80.625,
-    "word": "combine"
-  },
-  {
-    "start": 80.625,
-    "end": 81.062,
-    "word": "numbers"
-  },
-  {
-    "start": 81.062,
-    "end": 81.499,
-    "word": "right"
-  },
-  {
-    "start": 81.53,
-    "end": 82.035,
-    "word": "Multiply"
-  },
-  {
-    "start": 82.035,
-    "end": 82.54,
-    "word": "to"
-  },
-  {
-    "start": 82.54,
-    "end": 83.045,
-    "word": "find"
-  },
-  {
-    "start": 83.045,
-    "end": 83.55,
-    "word": "the"
-  },
-  {
-    "start": 83.55,
-    "end": 84.055,
-    "word": "total"
-  },
-  {
-    "start": 84.055,
-    "end": 84.56,
-    "word": "sum"
-  },
-  {
-    "start": 84.56,
-    "end": 84.991,
-    "word": "Let's"
-  },
-  {
-    "start": 84.991,
-    "end": 85.422,
-    "word": "solve"
-  },
-  {
-    "start": 85.422,
-    "end": 85.853,
-    "word": "problems"
-  },
-  {
-    "start": 85.853,
-    "end": 86.284,
-    "word": "with"
-  },
-  {
-    "start": 86.284,
-    "end": 86.715,
-    "word": "addition"
-  },
-  {
-    "start": 86.715,
-    "end": 87.146,
-    "word": "and"
-  },
-  {
-    "start": 87.146,
-    "end": 87.577,
-    "word": "subtraction"
-  },
-  {
-    "start": 87.58,
-    "end": 88.58,
-    "word": "Addition"
-  },
-  {
-    "start": 88.58,
-    "end": 89.58,
-    "word": "and"
-  },
-  {
-    "start": 89.58,
-    "end": 90.58,
-    "word": "subtraction"
-  },
-  {
-    "start": 90.58,
-    "end": 90.956,
-    "word": "Mathematics"
-  },
-  {
-    "start": 90.956,
-    "end": 91.332,
-    "word": "is"
-  },
-  {
-    "start": 91.332,
-    "end": 91.708,
-    "word": "key,"
-  },
-  {
-    "start": 91.708,
-    "end": 92.084,
-    "word": "shapes"
-  },
-  {
-    "start": 92.084,
-    "end": 92.46,
-    "word": "and"
-  },
-  {
-    "start": 92.46,
-    "end": 92.836,
-    "word": "sizes,"
-  },
-  {
-    "start": 92.836,
-    "end": 93.212,
-    "word": "patterns"
-  },
-  {
-    "start": 93.212,
-    "end": 93.588,
-    "word": "repeat"
-  },
-  {
-    "start": 93.59,
-    "end": 94.36,
+    "start": 21.87,
+    "end": 22.326,
     "word": "Subtraction"
   },
   {
-    "start": 94.36,
-    "end": 95.13,
+    "start": 22.326,
+    "end": 22.782,
     "word": "is"
   },
   {
-    "start": 95.13,
-    "end": 95.9,
-    "word": "a"
+    "start": 22.782,
+    "end": 23.238,
+    "word": "easy,"
   },
   {
-    "start": 95.9,
-    "end": 96.67,
-    "word": "breeze"
+    "start": 23.238,
+    "end": 23.694,
+    "word": "take"
   },
   {
-    "start": 96.67,
-    "end": 97.058,
-    "word": "Geometry"
-  },
-  {
-    "start": 97.058,
-    "end": 97.446,
-    "word": "shapes,"
-  },
-  {
-    "start": 97.446,
-    "end": 97.834,
-    "word": "angles,"
-  },
-  {
-    "start": 97.834,
-    "end": 98.222,
-    "word": "lines,"
-  },
-  {
-    "start": 98.222,
-    "end": 98.609,
-    "word": "and"
-  },
-  {
-    "start": 98.609,
-    "end": 98.996,
-    "word": "polygons,"
-  },
-  {
-    "start": 98.996,
-    "end": 99.383,
-    "word": "oh"
-  },
-  {
-    "start": 99.383,
-    "end": 99.77,
-    "word": "tell"
-  },
-  {
-    "start": 99.77,
-    "end": 100.209,
-    "word": "Learning"
-  },
-  {
-    "start": 100.209,
-    "end": 100.648,
-    "word": "math"
-  },
-  {
-    "start": 100.648,
-    "end": 101.087,
-    "word": "concepts"
-  },
-  {
-    "start": 101.087,
-    "end": 101.526,
-    "word": "is"
-  },
-  {
-    "start": 101.526,
-    "end": 101.965,
-    "word": "an"
-  },
-  {
-    "start": 101.965,
-    "end": 102.404,
-    "word": "important"
-  },
-  {
-    "start": 102.404,
-    "end": 102.843,
-    "word": "task"
-  },
-  {
-    "start": 102.84,
-    "end": 103.27,
-    "word": "Counting"
-  },
-  {
-    "start": 103.27,
-    "end": 103.7,
-    "word": "numbers,"
-  },
-  {
-    "start": 103.7,
-    "end": 104.13,
-    "word": "learning"
-  },
-  {
-    "start": 104.13,
-    "end": 104.56,
-    "word": "facts,"
-  },
-  {
-    "start": 104.56,
-    "end": 104.99,
-    "word": "adding"
-  },
-  {
-    "start": 104.99,
-    "end": 105.42,
-    "word": "with"
-  },
-  {
-    "start": 105.42,
-    "end": 105.85,
-    "word": "ease"
-  },
-  {
-    "start": 105.85,
-    "end": 106.234,
-    "word": "Division"
-  },
-  {
-    "start": 106.234,
-    "end": 106.618,
-    "word": "splits"
-  },
-  {
-    "start": 106.618,
-    "end": 107.002,
-    "word": "numbers"
-  },
-  {
-    "start": 107.002,
-    "end": 107.386,
-    "word": "into"
-  },
-  {
-    "start": 107.386,
-    "end": 107.77,
-    "word": "parts,"
-  },
-  {
-    "start": 107.77,
-    "end": 108.154,
-    "word": "like"
-  },
-  {
-    "start": 108.154,
-    "end": 108.538,
-    "word": "a"
-  },
-  {
-    "start": 108.538,
-    "end": 108.922,
-    "word": "fable"
-  },
-  {
-    "start": 108.92,
-    "end": 109.354,
-    "word": "Math"
-  },
-  {
-    "start": 109.354,
-    "end": 109.788,
-    "word": "can"
-  },
-  {
-    "start": 109.788,
-    "end": 110.222,
-    "word": "help"
-  },
-  {
-    "start": 110.222,
-    "end": 110.656,
-    "word": "solve"
-  },
-  {
-    "start": 110.656,
-    "end": 111.09,
-    "word": "problems"
-  },
-  {
-    "start": 111.09,
-    "end": 111.524,
-    "word": "with"
-  },
-  {
-    "start": 111.524,
-    "end": 111.958,
-    "word": "ease"
-  },
-  {
-    "start": 111.96,
-    "end": 112.727,
-    "word": "Division"
-  },
-  {
-    "start": 112.727,
-    "end": 113.495,
-    "word": "is"
-  },
-  {
-    "start": 113.495,
-    "end": 114.263,
-    "word": "a"
-  },
-  {
-    "start": 114.263,
-    "end": 115.031,
-    "word": "breeze"
-  },
-  {
-    "start": 115.03,
-    "end": 115.795,
-    "word": "Division"
-  },
-  {
-    "start": 115.795,
-    "end": 116.56,
-    "word": "is"
-  },
-  {
-    "start": 116.56,
-    "end": 117.325,
-    "word": "a"
-  },
-  {
-    "start": 117.325,
-    "end": 118.09,
-    "word": "breeze"
-  },
-  {
-    "start": 118.09,
-    "end": 118.716,
-    "word": "Learn"
-  },
-  {
-    "start": 118.716,
-    "end": 119.342,
-    "word": "to"
-  },
-  {
-    "start": 119.342,
-    "end": 119.968,
-    "word": "add"
-  },
-  {
-    "start": 119.968,
-    "end": 120.594,
-    "word": "and"
-  },
-  {
-    "start": 120.594,
-    "end": 121.22,
-    "word": "subtract"
-  },
-  {
-    "start": 121.22,
-    "end": 121.689,
-    "word": "Fractions"
-  },
-  {
-    "start": 121.689,
-    "end": 122.158,
-    "word": "show"
-  },
-  {
-    "start": 122.158,
-    "end": 122.627,
-    "word": "parts"
-  },
-  {
-    "start": 122.627,
-    "end": 123.096,
-    "word": "of"
-  },
-  {
-    "start": 123.096,
-    "end": 123.565,
-    "word": "a"
-  },
-  {
-    "start": 123.565,
-    "end": 124.034,
-    "word": "whole"
-  },
-  {
-    "start": 124.034,
-    "end": 124.503,
-    "word": "number"
-  },
-  {
-    "start": 124.5,
-    "end": 125.325,
-    "word": "Let's"
-  },
-  {
-    "start": 125.325,
-    "end": 126.15,
-    "word": "solve"
-  },
-  {
-    "start": 126.15,
-    "end": 126.975,
-    "word": "this"
-  },
-  {
-    "start": 126.975,
-    "end": 127.8,
-    "word": "sum"
-  },
-  {
-    "start": 127.8,
-    "end": 128.558,
-    "word": "Geometry"
-  },
-  {
-    "start": 128.558,
-    "end": 129.315,
-    "word": "shapes"
-  },
-  {
-    "start": 129.315,
-    "end": 130.072,
-    "word": "all"
-  },
-  {
-    "start": 130.072,
-    "end": 130.829,
-    "word": "around"
-  },
-  {
-    "start": 130.83,
-    "end": 131.22,
-    "word": "Math"
-  },
-  {
-    "start": 131.22,
-    "end": 131.61,
-    "word": "helps"
-  },
-  {
-    "start": 131.61,
-    "end": 132.0,
-    "word": "us"
-  },
-  {
-    "start": 132.0,
-    "end": 132.39,
-    "word": "solve"
-  },
-  {
-    "start": 132.39,
-    "end": 132.78,
-    "word": "problems,"
-  },
-  {
-    "start": 132.78,
-    "end": 133.17,
-    "word": "big"
-  },
-  {
-    "start": 133.17,
-    "end": 133.56,
-    "word": "or"
-  },
-  {
-    "start": 133.56,
-    "end": 133.95,
-    "word": "small"
-  },
-  {
-    "start": 133.95,
-    "end": 134.505,
-    "word": "Subtracting"
-  },
-  {
-    "start": 134.505,
-    "end": 135.06,
-    "word": "is"
-  },
-  {
-    "start": 135.06,
-    "end": 135.615,
-    "word": "taking"
-  },
-  {
-    "start": 135.615,
-    "end": 136.17,
+    "start": 23.694,
+    "end": 24.15,
     "word": "away"
   },
   {
-    "start": 136.17,
-    "end": 136.725,
-    "word": "some"
+    "start": 24.15,
+    "end": 24.606,
+    "word": "what's"
   },
   {
-    "start": 136.725,
-    "end": 137.28,
-    "word": "amount"
+    "start": 24.606,
+    "end": 25.062,
+    "word": "left"
   },
   {
-    "start": 137.28,
-    "end": 138.085,
-    "word": "Shapes"
+    "start": 25.06,
+    "end": 25.445,
+    "word": "Mathematics"
   },
   {
-    "start": 138.085,
-    "end": 138.89,
-    "word": "can"
-  },
-  {
-    "start": 138.89,
-    "end": 139.695,
-    "word": "be"
-  },
-  {
-    "start": 139.695,
-    "end": 140.5,
-    "word": "fun"
-  },
-  {
-    "start": 140.5,
-    "end": 141.577,
-    "word": "Add,"
-  },
-  {
-    "start": 141.577,
-    "end": 142.654,
-    "word": "subtract,"
-  },
-  {
-    "start": 142.654,
-    "end": 143.731,
-    "word": "learn"
-  },
-  {
-    "start": 143.73,
-    "end": 144.807,
-    "word": "Do"
-  },
-  {
-    "start": 144.807,
-    "end": 145.884,
-    "word": "the"
-  },
-  {
-    "start": 145.884,
-    "end": 146.961,
-    "word": "math"
-  },
-  {
-    "start": 146.96,
-    "end": 150.083,
-    "word": "Add"
-  },
-  {
-    "start": 150.083,
-    "end": 153.206,
-    "word": "and"
-  },
-  {
-    "start": 153.206,
-    "end": 156.329,
-    "word": "subtract"
-  },
-  {
-    "start": 156.33,
-    "end": 156.711,
-    "word": "Practicing"
-  },
-  {
-    "start": 156.711,
-    "end": 157.092,
-    "word": "math"
-  },
-  {
-    "start": 157.092,
-    "end": 157.473,
-    "word": "facts"
-  },
-  {
-    "start": 157.473,
-    "end": 157.854,
-    "word": "will"
-  },
-  {
-    "start": 157.854,
-    "end": 158.235,
-    "word": "give"
-  },
-  {
-    "start": 158.235,
-    "end": 158.616,
-    "word": "you"
-  },
-  {
-    "start": 158.616,
-    "end": 158.997,
-    "word": "many"
-  },
-  {
-    "start": 158.997,
-    "end": 159.378,
-    "word": "thrills"
-  },
-  {
-    "start": 159.38,
-    "end": 160.132,
-    "word": "Numbers"
-  },
-  {
-    "start": 160.132,
-    "end": 160.885,
-    "word": "together"
-  },
-  {
-    "start": 160.885,
-    "end": 161.637,
-    "word": "with"
-  },
-  {
-    "start": 161.637,
-    "end": 162.389,
-    "word": "ease"
-  },
-  {
-    "start": 162.39,
-    "end": 163.162,
-    "word": "Count"
-  },
-  {
-    "start": 163.162,
-    "end": 163.935,
-    "word": "numbers"
-  },
-  {
-    "start": 163.935,
-    "end": 164.708,
-    "word": "out"
-  },
-  {
-    "start": 164.708,
-    "end": 165.481,
-    "word": "loud"
-  },
-  {
-    "start": 165.48,
-    "end": 165.787,
-    "word": "Practice"
-  },
-  {
-    "start": 165.787,
-    "end": 166.094,
-    "word": "and"
-  },
-  {
-    "start": 166.094,
-    "end": 166.401,
-    "word": "study,"
-  },
-  {
-    "start": 166.401,
-    "end": 166.708,
-    "word": "understand"
-  },
-  {
-    "start": 166.708,
-    "end": 167.015,
-    "word": "concepts,"
-  },
-  {
-    "start": 167.015,
-    "end": 167.322,
-    "word": "use"
-  },
-  {
-    "start": 167.322,
-    "end": 167.629,
-    "word": "logic"
-  },
-  {
-    "start": 167.629,
-    "end": 167.936,
-    "word": "and"
-  },
-  {
-    "start": 167.936,
-    "end": 168.243,
-    "word": "reasoning"
-  },
-  {
-    "start": 168.243,
-    "end": 168.55,
-    "word": "through"
-  },
-  {
-    "start": 168.55,
-    "end": 168.987,
-    "word": "Math"
-  },
-  {
-    "start": 168.987,
-    "end": 169.424,
+    "start": 25.445,
+    "end": 25.83,
     "word": "is"
   },
   {
-    "start": 169.424,
-    "end": 169.861,
-    "word": "logic,"
+    "start": 25.83,
+    "end": 26.215,
+    "word": "the"
   },
   {
-    "start": 169.861,
-    "end": 170.298,
-    "word": "patterns,"
+    "start": 26.215,
+    "end": 26.6,
+    "word": "key,"
   },
   {
-    "start": 170.298,
-    "end": 170.735,
-    "word": "and"
+    "start": 26.6,
+    "end": 26.985,
+    "word": "problem-solving"
   },
   {
-    "start": 170.735,
-    "end": 171.172,
-    "word": "problem"
-  },
-  {
-    "start": 171.172,
-    "end": 171.609,
-    "word": "solving"
-  },
-  {
-    "start": 171.61,
-    "end": 172.113,
-    "word": "Multiply,"
-  },
-  {
-    "start": 172.113,
-    "end": 172.616,
-    "word": "divide,"
-  },
-  {
-    "start": 172.616,
-    "end": 173.119,
-    "word": "add"
-  },
-  {
-    "start": 173.119,
-    "end": 173.622,
-    "word": "and"
-  },
-  {
-    "start": 173.622,
-    "end": 174.125,
-    "word": "subtract"
-  },
-  {
-    "start": 174.125,
-    "end": 174.628,
-    "word": "too"
-  },
-  {
-    "start": 174.63,
-    "end": 175.392,
-    "word": "Practice"
-  },
-  {
-    "start": 175.392,
-    "end": 176.154,
-    "word": "your"
-  },
-  {
-    "start": 176.154,
-    "end": 176.916,
-    "word": "math"
-  },
-  {
-    "start": 176.916,
-    "end": 177.678,
+    "start": 26.985,
+    "end": 27.37,
     "word": "skills"
   },
   {
-    "start": 177.68,
-    "end": 178.143,
-    "word": "Math"
+    "start": 27.37,
+    "end": 27.755,
+    "word": "we"
   },
   {
-    "start": 178.143,
-    "end": 178.606,
+    "start": 27.755,
+    "end": 28.14,
+    "word": "earn"
+  },
+  {
+    "start": 28.14,
+    "end": 28.577,
+    "word": "Division"
+  },
+  {
+    "start": 28.577,
+    "end": 29.014,
+    "word": "splits"
+  },
+  {
+    "start": 29.014,
+    "end": 29.451,
+    "word": "things"
+  },
+  {
+    "start": 29.451,
+    "end": 29.888,
+    "word": "evenly,"
+  },
+  {
+    "start": 29.888,
+    "end": 30.325,
+    "word": "sharing"
+  },
+  {
+    "start": 30.325,
+    "end": 30.762,
     "word": "is"
   },
   {
-    "start": 178.606,
-    "end": 179.069,
-    "word": "everywhere,"
+    "start": 30.762,
+    "end": 31.199,
+    "word": "fair"
   },
   {
-    "start": 179.069,
-    "end": 179.532,
-    "word": "from"
+    "start": 31.2,
+    "end": 31.588,
+    "word": "Counting,"
   },
   {
-    "start": 179.532,
-    "end": 179.995,
-    "word": "cooking"
+    "start": 31.588,
+    "end": 31.976,
+    "word": "adding,"
   },
   {
-    "start": 179.995,
-    "end": 180.458,
-    "word": "to"
-  },
-  {
-    "start": 180.458,
-    "end": 180.921,
-    "word": "shopping"
-  },
-  {
-    "start": 180.92,
-    "end": 181.55,
-    "word": "Multiply"
-  },
-  {
-    "start": 181.55,
-    "end": 182.18,
-    "word": "to"
-  },
-  {
-    "start": 182.18,
-    "end": 182.81,
-    "word": "find"
-  },
-  {
-    "start": 182.81,
-    "end": 183.44,
-    "word": "the"
-  },
-  {
-    "start": 183.44,
-    "end": 184.07,
-    "word": "product"
-  },
-  {
-    "start": 184.07,
-    "end": 184.676,
-    "word": "Learn"
-  },
-  {
-    "start": 184.676,
-    "end": 185.282,
-    "word": "to"
-  },
-  {
-    "start": 185.282,
-    "end": 185.888,
-    "word": "multiply"
-  },
-  {
-    "start": 185.888,
-    "end": 186.494,
+    "start": 31.976,
+    "end": 32.364,
     "word": "and"
   },
   {
-    "start": 186.494,
-    "end": 187.1,
-    "word": "solve"
+    "start": 32.364,
+    "end": 32.752,
+    "word": "graphing,"
   },
   {
-    "start": 187.1,
-    "end": 187.875,
-    "word": "Learn"
-  },
-  {
-    "start": 187.875,
-    "end": 188.65,
-    "word": "to"
-  },
-  {
-    "start": 188.65,
-    "end": 189.425,
-    "word": "multiply"
-  },
-  {
-    "start": 189.425,
-    "end": 190.2,
-    "word": "fast"
-  },
-  {
-    "start": 190.2,
-    "end": 190.65,
-    "word": "Basic"
-  },
-  {
-    "start": 190.65,
-    "end": 191.1,
-    "word": "math"
-  },
-  {
-    "start": 191.1,
-    "end": 191.55,
-    "word": "concepts,"
-  },
-  {
-    "start": 191.55,
-    "end": 192.0,
-    "word": "building"
-  },
-  {
-    "start": 192.0,
-    "end": 192.45,
-    "word": "strong"
-  },
-  {
-    "start": 192.45,
-    "end": 192.9,
-    "word": "math"
-  },
-  {
-    "start": 192.9,
-    "end": 193.35,
-    "word": "base"
-  },
-  {
-    "start": 193.35,
-    "end": 193.796,
-    "word": "Learn"
-  },
-  {
-    "start": 193.796,
-    "end": 194.242,
-    "word": "to"
-  },
-  {
-    "start": 194.242,
-    "end": 194.688,
-    "word": "multiply,"
-  },
-  {
-    "start": 194.688,
-    "end": 195.134,
-    "word": "it's"
-  },
-  {
-    "start": 195.134,
-    "end": 195.58,
+    "start": 32.752,
+    "end": 33.14,
     "word": "all"
   },
   {
-    "start": 195.58,
-    "end": 196.026,
-    "word": "about"
+    "start": 33.14,
+    "end": 33.528,
+    "word": "part"
   },
   {
-    "start": 196.026,
-    "end": 196.472,
-    "word": "groups"
-  },
-  {
-    "start": 196.47,
-    "end": 197.27,
-    "word": "Basic"
-  },
-  {
-    "start": 197.27,
-    "end": 198.07,
-    "word": "math"
-  },
-  {
-    "start": 198.07,
-    "end": 198.87,
-    "word": "is"
-  },
-  {
-    "start": 198.87,
-    "end": 199.67,
-    "word": "key"
-  },
-  {
-    "start": 199.67,
-    "end": 200.457,
-    "word": "Add"
-  },
-  {
-    "start": 200.457,
-    "end": 201.244,
-    "word": "and"
-  },
-  {
-    "start": 201.244,
-    "end": 202.031,
-    "word": "then"
-  },
-  {
-    "start": 202.031,
-    "end": 202.819,
-    "word": "check"
-  },
-  {
-    "start": 202.82,
-    "end": 203.87,
-    "word": "Learn"
-  },
-  {
-    "start": 203.87,
-    "end": 204.92,
-    "word": "to"
-  },
-  {
-    "start": 204.92,
-    "end": 205.97,
-    "word": "multiply"
-  },
-  {
-    "start": 205.97,
-    "end": 206.423,
-    "word": "Fractions"
-  },
-  {
-    "start": 206.423,
-    "end": 206.876,
-    "word": "show"
-  },
-  {
-    "start": 206.876,
-    "end": 207.329,
-    "word": "parts"
-  },
-  {
-    "start": 207.329,
-    "end": 207.782,
+    "start": 33.528,
+    "end": 33.916,
     "word": "of"
   },
   {
-    "start": 207.782,
-    "end": 208.235,
-    "word": "a"
+    "start": 33.916,
+    "end": 34.304,
+    "word": "math's"
   },
   {
-    "start": 208.235,
-    "end": 208.688,
-    "word": "whole"
+    "start": 34.304,
+    "end": 34.692,
+    "word": "beauty"
   },
   {
-    "start": 208.688,
-    "end": 209.141,
-    "word": "number"
+    "start": 34.69,
+    "end": 35.026,
+    "word": "Key"
   },
   {
-    "start": 209.14,
-    "end": 209.53,
-    "word": "Numbers"
-  },
-  {
-    "start": 209.53,
-    "end": 209.92,
-    "word": "are"
-  },
-  {
-    "start": 209.92,
-    "end": 210.31,
-    "word": "fun,"
-  },
-  {
-    "start": 210.31,
-    "end": 210.7,
+    "start": 35.026,
+    "end": 35.362,
     "word": "math"
   },
   {
-    "start": 210.7,
-    "end": 211.09,
-    "word": "skills"
+    "start": 35.362,
+    "end": 35.698,
+    "word": "concepts"
   },
   {
-    "start": 211.09,
-    "end": 211.48,
-    "word": "can't"
+    "start": 35.698,
+    "end": 36.034,
+    "word": "include"
   },
   {
-    "start": 211.48,
-    "end": 211.87,
-    "word": "be"
+    "start": 36.034,
+    "end": 36.37,
+    "word": "adding,"
   },
   {
-    "start": 211.87,
-    "end": 212.26,
-    "word": "beat"
+    "start": 36.37,
+    "end": 36.706,
+    "word": "subtracting,"
   },
   {
-    "start": 212.26,
-    "end": 213.28,
-    "word": "Add"
+    "start": 36.706,
+    "end": 37.042,
+    "word": "multiplying,"
   },
   {
-    "start": 213.28,
-    "end": 214.3,
-    "word": "and"
+    "start": 37.042,
+    "end": 37.378,
+    "word": "dividing"
   },
   {
-    "start": 214.3,
-    "end": 215.32,
-    "word": "subtract"
+    "start": 37.378,
+    "end": 37.714,
+    "word": "numbers"
   },
   {
-    "start": 215.32,
-    "end": 216.457,
+    "start": 37.71,
+    "end": 38.163,
     "word": "Math"
   },
   {
-    "start": 216.457,
-    "end": 217.594,
-    "word": "facts"
-  },
-  {
-    "start": 217.594,
-    "end": 218.731,
-    "word": "rock"
-  },
-  {
-    "start": 218.73,
-    "end": 219.87,
-    "word": "Math"
-  },
-  {
-    "start": 219.87,
-    "end": 221.01,
+    "start": 38.163,
+    "end": 38.616,
     "word": "is"
   },
   {
-    "start": 221.01,
-    "end": 222.15,
-    "word": "fun"
+    "start": 38.616,
+    "end": 39.069,
+    "word": "the"
   },
   {
-    "start": 222.15,
-    "end": 222.49,
+    "start": 39.069,
+    "end": 39.522,
+    "word": "key"
+  },
+  {
+    "start": 39.522,
+    "end": 39.975,
+    "word": "to"
+  },
+  {
+    "start": 39.975,
+    "end": 40.428,
+    "word": "solving"
+  },
+  {
+    "start": 40.428,
+    "end": 40.881,
+    "word": "problems"
+  },
+  {
+    "start": 40.88,
+    "end": 41.635,
+    "word": "Subtracting"
+  },
+  {
+    "start": 41.635,
+    "end": 42.39,
+    "word": "down,"
+  },
+  {
+    "start": 42.39,
+    "end": 43.145,
+    "word": "divide"
+  },
+  {
+    "start": 43.145,
+    "end": 43.9,
+    "word": "too"
+  },
+  {
+    "start": 43.9,
+    "end": 44.534,
+    "word": "Counting"
+  },
+  {
+    "start": 44.534,
+    "end": 45.168,
+    "word": "with"
+  },
+  {
+    "start": 45.168,
+    "end": 45.802,
+    "word": "one,"
+  },
+  {
+    "start": 45.802,
+    "end": 46.436,
+    "word": "two,"
+  },
+  {
+    "start": 46.436,
+    "end": 47.07,
+    "word": "three"
+  },
+  {
+    "start": 47.07,
+    "end": 47.474,
+    "word": "Basic"
+  },
+  {
+    "start": 47.474,
+    "end": 47.878,
+    "word": "math"
+  },
+  {
+    "start": 47.878,
+    "end": 48.282,
+    "word": "is"
+  },
+  {
+    "start": 48.282,
+    "end": 48.686,
+    "word": "fundamental,"
+  },
+  {
+    "start": 48.686,
+    "end": 49.09,
+    "word": "understand"
+  },
+  {
+    "start": 49.09,
+    "end": 49.494,
+    "word": "each"
+  },
+  {
+    "start": 49.494,
+    "end": 49.898,
+    "word": "concept"
+  },
+  {
+    "start": 49.898,
+    "end": 50.302,
+    "word": "well"
+  },
+  {
+    "start": 50.3,
+    "end": 50.637,
+    "word": "Math"
+  },
+  {
+    "start": 50.637,
+    "end": 50.974,
+    "word": "concepts"
+  },
+  {
+    "start": 50.974,
+    "end": 51.311,
+    "word": "are"
+  },
+  {
+    "start": 51.311,
+    "end": 51.648,
+    "word": "key"
+  },
+  {
+    "start": 51.648,
+    "end": 51.985,
+    "word": "for"
+  },
+  {
+    "start": 51.985,
+    "end": 52.322,
+    "word": "solving"
+  },
+  {
+    "start": 52.322,
+    "end": 52.659,
+    "word": "problems"
+  },
+  {
+    "start": 52.659,
+    "end": 52.996,
+    "word": "we"
+  },
+  {
+    "start": 52.996,
+    "end": 53.333,
+    "word": "face"
+  },
+  {
+    "start": 53.33,
+    "end": 53.832,
+    "word": "Multiply"
+  },
+  {
+    "start": 53.832,
+    "end": 54.334,
+    "word": "to"
+  },
+  {
+    "start": 54.334,
+    "end": 54.836,
+    "word": "find"
+  },
+  {
+    "start": 54.836,
+    "end": 55.338,
+    "word": "the"
+  },
+  {
+    "start": 55.338,
+    "end": 55.84,
+    "word": "total"
+  },
+  {
+    "start": 55.84,
+    "end": 56.342,
+    "word": "sum"
+  },
+  {
+    "start": 56.34,
+    "end": 56.788,
+    "word": "Solving"
+  },
+  {
+    "start": 56.788,
+    "end": 57.235,
+    "word": "problems"
+  },
+  {
+    "start": 57.235,
+    "end": 57.682,
+    "word": "daily,"
+  },
+  {
+    "start": 57.682,
+    "end": 58.13,
+    "word": "math"
+  },
+  {
+    "start": 58.13,
+    "end": 58.578,
+    "word": "skills"
+  },
+  {
+    "start": 58.578,
+    "end": 59.026,
+    "word": "build"
+  },
+  {
+    "start": 59.026,
+    "end": 59.474,
+    "word": "up"
+  },
+  {
+    "start": 59.474,
+    "end": 59.921,
+    "word": "gaily"
+  },
+  {
+    "start": 59.92,
+    "end": 60.359,
+    "word": "Division"
+  },
+  {
+    "start": 60.359,
+    "end": 60.798,
+    "word": "splits"
+  },
+  {
+    "start": 60.798,
+    "end": 61.237,
+    "word": "things"
+  },
+  {
+    "start": 61.237,
+    "end": 61.676,
+    "word": "up"
+  },
+  {
+    "start": 61.676,
+    "end": 62.115,
+    "word": "into"
+  },
+  {
+    "start": 62.115,
+    "end": 62.554,
+    "word": "equal"
+  },
+  {
+    "start": 62.554,
+    "end": 62.993,
+    "word": "portions"
+  },
+  {
+    "start": 62.99,
+    "end": 63.431,
+    "word": "Math"
+  },
+  {
+    "start": 63.431,
+    "end": 63.872,
+    "word": "is"
+  },
+  {
+    "start": 63.872,
+    "end": 64.313,
+    "word": "everywhere,"
+  },
+  {
+    "start": 64.313,
+    "end": 64.754,
+    "word": "problem-solving"
+  },
+  {
+    "start": 64.754,
+    "end": 65.195,
+    "word": "skills"
+  },
+  {
+    "start": 65.195,
+    "end": 65.636,
+    "word": "we"
+  },
+  {
+    "start": 65.636,
+    "end": 66.077,
+    "word": "use"
+  },
+  {
+    "start": 66.08,
+    "end": 66.868,
+    "word": "Division"
+  },
+  {
+    "start": 66.868,
+    "end": 67.655,
+    "word": "is"
+  },
+  {
+    "start": 67.655,
+    "end": 68.442,
+    "word": "a"
+  },
+  {
+    "start": 68.442,
+    "end": 69.23,
+    "word": "breeze"
+  },
+  {
+    "start": 69.23,
+    "end": 69.653,
+    "word": "Multiply"
+  },
+  {
+    "start": 69.653,
+    "end": 70.076,
+    "word": "and"
+  },
+  {
+    "start": 70.076,
+    "end": 70.498,
+    "word": "divide,"
+  },
+  {
+    "start": 70.498,
+    "end": 70.921,
+    "word": "math"
+  },
+  {
+    "start": 70.921,
+    "end": 71.344,
+    "word": "is"
+  },
+  {
+    "start": 71.344,
+    "end": 71.766,
+    "word": "here"
+  },
+  {
+    "start": 71.766,
+    "end": 72.189,
+    "word": "to"
+  },
+  {
+    "start": 72.189,
+    "end": 72.611,
+    "word": "stay"
+  },
+  {
+    "start": 72.61,
+    "end": 73.112,
+    "word": "Multiply"
+  },
+  {
+    "start": 73.112,
+    "end": 73.614,
+    "word": "three"
+  },
+  {
+    "start": 73.614,
+    "end": 74.116,
+    "word": "by"
+  },
+  {
+    "start": 74.116,
+    "end": 74.618,
+    "word": "four,"
+  },
+  {
+    "start": 74.618,
+    "end": 75.12,
+    "word": "equals"
+  },
+  {
+    "start": 75.12,
+    "end": 75.622,
+    "word": "twelve"
+  },
+  {
+    "start": 75.62,
+    "end": 76.375,
     "word": "Subtract"
   },
   {
-    "start": 222.49,
-    "end": 222.83,
+    "start": 76.375,
+    "end": 77.13,
+    "word": "to"
+  },
+  {
+    "start": 77.13,
+    "end": 77.885,
+    "word": "find"
+  },
+  {
+    "start": 77.885,
+    "end": 78.64,
+    "word": "sum"
+  },
+  {
+    "start": 78.64,
+    "end": 79.111,
+    "word": "Mathematics"
+  },
+  {
+    "start": 79.111,
+    "end": 79.582,
+    "word": "is"
+  },
+  {
+    "start": 79.582,
+    "end": 80.053,
+    "word": "logic,"
+  },
+  {
+    "start": 80.053,
+    "end": 80.524,
+    "word": "numbers"
+  },
+  {
+    "start": 80.524,
+    "end": 80.995,
+    "word": "make"
+  },
+  {
+    "start": 80.995,
+    "end": 81.466,
+    "word": "things"
+  },
+  {
+    "start": 81.466,
+    "end": 81.937,
+    "word": "clear"
+  },
+  {
+    "start": 81.94,
+    "end": 84.54,
+    "word": "Multiply"
+  },
+  {
+    "start": 84.54,
+    "end": 87.14,
+    "word": "fast"
+  },
+  {
+    "start": 87.14,
+    "end": 87.857,
+    "word": "Fractions"
+  },
+  {
+    "start": 87.857,
+    "end": 88.574,
+    "word": "show"
+  },
+  {
+    "start": 88.574,
+    "end": 89.291,
+    "word": "parts"
+  },
+  {
+    "start": 89.291,
+    "end": 90.008,
+    "word": "of"
+  },
+  {
+    "start": 90.008,
+    "end": 90.725,
+    "word": "a"
+  },
+  {
+    "start": 90.725,
+    "end": 91.442,
+    "word": "whole"
+  },
+  {
+    "start": 91.44,
+    "end": 91.881,
+    "word": "Multiply"
+  },
+  {
+    "start": 91.881,
+    "end": 92.322,
+    "word": "three"
+  },
+  {
+    "start": 92.322,
+    "end": 92.763,
+    "word": "by"
+  },
+  {
+    "start": 92.763,
+    "end": 93.204,
+    "word": "two,"
+  },
+  {
+    "start": 93.204,
+    "end": 93.645,
+    "word": "quick"
+  },
+  {
+    "start": 93.645,
+    "end": 94.086,
+    "word": "and"
+  },
+  {
+    "start": 94.086,
+    "end": 94.527,
+    "word": "easy"
+  },
+  {
+    "start": 94.53,
+    "end": 95.32,
+    "word": "Multiply"
+  },
+  {
+    "start": 95.32,
+    "end": 96.11,
+    "word": "to"
+  },
+  {
+    "start": 96.11,
+    "end": 96.9,
+    "word": "find,"
+  },
+  {
+    "start": 96.9,
+    "end": 97.69,
+    "word": "answers"
+  },
+  {
+    "start": 97.69,
+    "end": 98.48,
+    "word": "will"
+  },
+  {
+    "start": 98.48,
+    "end": 99.27,
+    "word": "soon"
+  },
+  {
+    "start": 99.27,
+    "end": 100.06,
+    "word": "show"
+  },
+  {
+    "start": 100.06,
+    "end": 100.858,
+    "word": "Let's"
+  },
+  {
+    "start": 100.858,
+    "end": 101.656,
+    "word": "start"
+  },
+  {
+    "start": 101.656,
+    "end": 102.454,
+    "word": "with"
+  },
+  {
+    "start": 102.454,
+    "end": 103.251,
+    "word": "one"
+  },
+  {
+    "start": 103.25,
+    "end": 104.77,
+    "word": "Do"
+  },
+  {
+    "start": 104.77,
+    "end": 106.29,
+    "word": "math"
+  },
+  {
+    "start": 106.29,
+    "end": 107.81,
+    "word": "well"
+  },
+  {
+    "start": 107.81,
+    "end": 108.267,
+    "word": "Geometry"
+  },
+  {
+    "start": 108.267,
+    "end": 108.724,
+    "word": "shapes"
+  },
+  {
+    "start": 108.724,
+    "end": 109.181,
+    "word": "and"
+  },
+  {
+    "start": 109.181,
+    "end": 109.638,
+    "word": "angles,"
+  },
+  {
+    "start": 109.638,
+    "end": 110.095,
+    "word": "study"
+  },
+  {
+    "start": 110.095,
+    "end": 110.552,
+    "word": "with"
+  },
+  {
+    "start": 110.552,
+    "end": 111.009,
+    "word": "passion"
+  },
+  {
+    "start": 111.01,
+    "end": 111.44,
+    "word": "Subtract"
+  },
+  {
+    "start": 111.44,
+    "end": 111.87,
+    "word": "to"
+  },
+  {
+    "start": 111.87,
+    "end": 112.3,
+    "word": "find"
+  },
+  {
+    "start": 112.3,
+    "end": 112.73,
+    "word": "what"
+  },
+  {
+    "start": 112.73,
+    "end": 113.16,
+    "word": "is"
+  },
+  {
+    "start": 113.16,
+    "end": 113.59,
+    "word": "left"
+  },
+  {
+    "start": 113.59,
+    "end": 114.02,
+    "word": "behind"
+  },
+  {
+    "start": 114.02,
+    "end": 119.335,
+    "word": "Math"
+  },
+  {
+    "start": 119.335,
+    "end": 124.65,
+    "word": "shapes"
+  },
+  {
+    "start": 124.65,
+    "end": 129.965,
+    "word": "the"
+  },
+  {
+    "start": 129.965,
+    "end": 135.28,
+    "word": "world"
+  },
+  {
+    "start": 135.28,
+    "end": 135.877,
+    "word": "Counting"
+  },
+  {
+    "start": 135.877,
+    "end": 136.474,
+    "word": "numbers"
+  },
+  {
+    "start": 136.474,
+    "end": 137.071,
+    "word": "is"
+  },
+  {
+    "start": 137.071,
+    "end": 137.668,
+    "word": "where"
+  },
+  {
+    "start": 137.668,
+    "end": 138.265,
+    "word": "math"
+  },
+  {
+    "start": 138.265,
+    "end": 138.862,
+    "word": "starts"
+  },
+  {
+    "start": 138.86,
+    "end": 139.64,
+    "word": "Counting"
+  },
+  {
+    "start": 139.64,
+    "end": 140.42,
+    "word": "has"
+  },
+  {
+    "start": 140.42,
+    "end": 141.2,
+    "word": "a"
+  },
+  {
+    "start": 141.2,
+    "end": 141.98,
+    "word": "rhyme"
+  },
+  {
+    "start": 141.98,
+    "end": 142.343,
+    "word": "Multiply,"
+  },
+  {
+    "start": 142.343,
+    "end": 142.706,
+    "word": "divide,"
+  },
+  {
+    "start": 142.706,
+    "end": 143.069,
+    "word": "add,"
+  },
+  {
+    "start": 143.069,
+    "end": 143.432,
+    "word": "subtract,"
+  },
+  {
+    "start": 143.432,
+    "end": 143.795,
+    "word": "math"
+  },
+  {
+    "start": 143.795,
+    "end": 144.158,
+    "word": "is"
+  },
+  {
+    "start": 144.158,
+    "end": 144.521,
+    "word": "all"
+  },
+  {
+    "start": 144.521,
+    "end": 144.884,
+    "word": "about"
+  },
+  {
+    "start": 144.884,
+    "end": 145.247,
+    "word": "numbers"
+  },
+  {
+    "start": 145.25,
+    "end": 146.222,
+    "word": "Multiply,"
+  },
+  {
+    "start": 146.222,
+    "end": 147.195,
+    "word": "divide,"
+  },
+  {
+    "start": 147.195,
+    "end": 148.167,
+    "word": "add,"
+  },
+  {
+    "start": 148.167,
+    "end": 149.139,
+    "word": "subtract"
+  },
+  {
+    "start": 149.14,
+    "end": 149.895,
+    "word": "Subtract"
+  },
+  {
+    "start": 149.895,
+    "end": 150.65,
+    "word": "and"
+  },
+  {
+    "start": 150.65,
+    "end": 151.405,
+    "word": "then"
+  },
+  {
+    "start": 151.405,
+    "end": 152.16,
+    "word": "divide"
+  },
+  {
+    "start": 152.16,
+    "end": 152.597,
+    "word": "Let's"
+  },
+  {
+    "start": 152.597,
+    "end": 153.034,
+    "word": "multiply"
+  },
+  {
+    "start": 153.034,
+    "end": 153.471,
+    "word": "numbers"
+  },
+  {
+    "start": 153.471,
+    "end": 153.908,
+    "word": "to"
+  },
+  {
+    "start": 153.908,
+    "end": 154.345,
+    "word": "find"
+  },
+  {
+    "start": 154.345,
+    "end": 154.782,
+    "word": "the"
+  },
+  {
+    "start": 154.782,
+    "end": 155.219,
+    "word": "product"
+  },
+  {
+    "start": 155.22,
+    "end": 155.717,
+    "word": "Math"
+  },
+  {
+    "start": 155.717,
+    "end": 156.214,
+    "word": "is"
+  },
+  {
+    "start": 156.214,
+    "end": 156.711,
+    "word": "logical,"
+  },
+  {
+    "start": 156.711,
+    "end": 157.208,
+    "word": "numbers"
+  },
+  {
+    "start": 157.208,
+    "end": 157.705,
+    "word": "guide"
+  },
+  {
+    "start": 157.705,
+    "end": 158.202,
+    "word": "our"
+  },
+  {
+    "start": 158.202,
+    "end": 158.699,
+    "word": "way"
+  },
+  {
+    "start": 158.7,
+    "end": 159.967,
+    "word": "Multiply"
+  },
+  {
+    "start": 159.967,
+    "end": 161.234,
+    "word": "fast"
+  },
+  {
+    "start": 161.234,
+    "end": 162.501,
     "word": "now"
+  },
+  {
+    "start": 162.5,
+    "end": 163.124,
+    "word": "Let's"
+  },
+  {
+    "start": 163.124,
+    "end": 163.748,
+    "word": "multiply"
+  },
+  {
+    "start": 163.748,
+    "end": 164.372,
+    "word": "five"
+  },
+  {
+    "start": 164.372,
+    "end": 164.996,
+    "word": "by"
+  },
+  {
+    "start": 164.996,
+    "end": 165.62,
+    "word": "six"
+  },
+  {
+    "start": 165.62,
+    "end": 166.234,
+    "word": "Let's"
+  },
+  {
+    "start": 166.234,
+    "end": 166.848,
+    "word": "multiply"
+  },
+  {
+    "start": 166.848,
+    "end": 167.462,
+    "word": "six"
+  },
+  {
+    "start": 167.462,
+    "end": 168.076,
+    "word": "by"
+  },
+  {
+    "start": 168.076,
+    "end": 168.69,
+    "word": "two"
+  },
+  {
+    "start": 168.69,
+    "end": 169.553,
+    "word": "Count"
+  },
+  {
+    "start": 169.553,
+    "end": 170.416,
+    "word": "all"
+  },
+  {
+    "start": 170.416,
+    "end": 171.279,
+    "word": "the"
+  },
+  {
+    "start": 171.279,
+    "end": 172.142,
+    "word": "shapes"
+  },
+  {
+    "start": 172.14,
+    "end": 172.94,
+    "word": "Learn"
+  },
+  {
+    "start": 172.94,
+    "end": 173.74,
+    "word": "shapes"
+  },
+  {
+    "start": 173.74,
+    "end": 174.54,
+    "word": "and"
+  },
+  {
+    "start": 174.54,
+    "end": 175.34,
+    "word": "patterns"
+  },
+  {
+    "start": 175.34,
+    "end": 176.393,
+    "word": "Learn"
+  },
+  {
+    "start": 176.393,
+    "end": 177.446,
+    "word": "to"
+  },
+  {
+    "start": 177.446,
+    "end": 178.499,
+    "word": "multiply"
+  },
+  {
+    "start": 178.5,
+    "end": 178.887,
+    "word": "Shapes"
+  },
+  {
+    "start": 178.887,
+    "end": 179.274,
+    "word": "and"
+  },
+  {
+    "start": 179.274,
+    "end": 179.661,
+    "word": "patterns"
+  },
+  {
+    "start": 179.661,
+    "end": 180.048,
+    "word": "in"
+  },
+  {
+    "start": 180.048,
+    "end": 180.435,
+    "word": "math,"
+  },
+  {
+    "start": 180.435,
+    "end": 180.822,
+    "word": "geometry"
+  },
+  {
+    "start": 180.822,
+    "end": 181.209,
+    "word": "is"
+  },
+  {
+    "start": 181.209,
+    "end": 181.596,
+    "word": "fun"
+  },
+  {
+    "start": 181.6,
+    "end": 182.115,
+    "word": "Counting"
+  },
+  {
+    "start": 182.115,
+    "end": 182.63,
+    "word": "numbers"
+  },
+  {
+    "start": 182.63,
+    "end": 183.145,
+    "word": "is"
+  },
+  {
+    "start": 183.145,
+    "end": 183.66,
+    "word": "a"
+  },
+  {
+    "start": 183.66,
+    "end": 184.175,
+    "word": "fundamental"
+  },
+  {
+    "start": 184.175,
+    "end": 184.69,
+    "word": "skill"
+  },
+  {
+    "start": 184.69,
+    "end": 185.767,
+    "word": "Subtraction"
+  },
+  {
+    "start": 185.767,
+    "end": 186.844,
+    "word": "is"
+  },
+  {
+    "start": 186.844,
+    "end": 187.921,
+    "word": "key"
+  },
+  {
+    "start": 187.92,
+    "end": 188.707,
+    "word": "Practice"
+  },
+  {
+    "start": 188.707,
+    "end": 189.494,
+    "word": "your"
+  },
+  {
+    "start": 189.494,
+    "end": 190.281,
+    "word": "math"
+  },
+  {
+    "start": 190.281,
+    "end": 191.069,
+    "word": "skills"
+  },
+  {
+    "start": 191.07,
+    "end": 191.672,
+    "word": "Subtract"
+  },
+  {
+    "start": 191.672,
+    "end": 192.274,
+    "word": "to"
+  },
+  {
+    "start": 192.274,
+    "end": 192.876,
+    "word": "find"
+  },
+  {
+    "start": 192.876,
+    "end": 193.478,
+    "word": "the"
+  },
+  {
+    "start": 193.478,
+    "end": 194.08,
+    "word": "difference"
+  },
+  {
+    "start": 194.08,
+    "end": 194.534,
+    "word": "Counting"
+  },
+  {
+    "start": 194.534,
+    "end": 194.988,
+    "word": "numbers"
+  },
+  {
+    "start": 194.988,
+    "end": 195.442,
+    "word": "helps"
+  },
+  {
+    "start": 195.442,
+    "end": 195.896,
+    "word": "us"
+  },
+  {
+    "start": 195.896,
+    "end": 196.35,
+    "word": "learn"
+  },
+  {
+    "start": 196.35,
+    "end": 196.804,
+    "word": "math"
+  },
+  {
+    "start": 196.804,
+    "end": 197.258,
+    "word": "skills"
+  },
+  {
+    "start": 197.26,
+    "end": 198.04,
+    "word": "Fractions"
+  },
+  {
+    "start": 198.04,
+    "end": 198.82,
+    "word": "can"
+  },
+  {
+    "start": 198.82,
+    "end": 199.6,
+    "word": "be"
+  },
+  {
+    "start": 199.6,
+    "end": 200.38,
+    "word": "tricky"
+  },
+  {
+    "start": 200.38,
+    "end": 201.46,
+    "word": "Solve"
+  },
+  {
+    "start": 201.46,
+    "end": 202.54,
+    "word": "equations"
+  },
+  {
+    "start": 202.54,
+    "end": 203.62,
+    "word": "well"
+  },
+  {
+    "start": 203.62,
+    "end": 204.923,
+    "word": "Multiply"
+  },
+  {
+    "start": 204.923,
+    "end": 206.226,
+    "word": "by"
+  },
+  {
+    "start": 206.226,
+    "end": 207.529,
+    "word": "five,"
+  },
+  {
+    "start": 207.529,
+    "end": 208.832,
+    "word": "then"
+  },
+  {
+    "start": 208.832,
+    "end": 210.135,
+    "word": "divide"
+  },
+  {
+    "start": 210.135,
+    "end": 211.438,
+    "word": "by"
+  },
+  {
+    "start": 211.438,
+    "end": 212.741,
+    "word": "two"
+  },
+  {
+    "start": 212.74,
+    "end": 212.762,
+    "word": "Multiplication"
+  },
+  {
+    "start": 212.762,
+    "end": 212.784,
+    "word": "is"
+  },
+  {
+    "start": 212.784,
+    "end": 212.806,
+    "word": "repeated"
+  },
+  {
+    "start": 212.806,
+    "end": 212.828,
+    "word": "addition,"
+  },
+  {
+    "start": 212.828,
+    "end": 212.85,
+    "word": "a"
+  },
+  {
+    "start": 212.85,
+    "end": 212.872,
+    "word": "fundamental"
+  },
+  {
+    "start": 212.872,
+    "end": 212.894,
+    "word": "concept"
+  },
+  {
+    "start": 212.894,
+    "end": 212.916,
+    "word": "in"
+  },
+  {
+    "start": 212.916,
+    "end": 212.938,
+    "word": "mathematics"
+  },
+  {
+    "start": 212.938,
+    "end": 212.96,
+    "word": "that"
+  },
+  {
+    "start": 212.96,
+    "end": 212.982,
+    "word": "helps"
+  },
+  {
+    "start": 212.982,
+    "end": 213.004,
+    "word": "simplify"
+  },
+  {
+    "start": 213.004,
+    "end": 213.026,
+    "word": "calculations"
+  },
+  {
+    "start": 213.026,
+    "end": 213.048,
+    "word": "and"
+  },
+  {
+    "start": 213.048,
+    "end": 213.07,
+    "word": "solve"
+  },
+  {
+    "start": 213.07,
+    "end": 213.092,
+    "word": "problems"
+  },
+  {
+    "start": 213.092,
+    "end": 213.114,
+    "word": "efficiently"
   }
 ]
