@@ -7,6 +7,7 @@ Works with actual viseme names from previous pipeline stage.
 import re
 from typing import List, Dict, Tuple
 import os
+import json
 
 # Viseme importance weights for scoring (based on visibility)
 VISEME_WEIGHTS = {
@@ -143,16 +144,16 @@ class RobustEducationalLyricGenerator:
         self.api_key = api_key
         self.educational_topic = educational_topic
     
-    def generate_lyrics_for_chunks(self, chunks: List[Dict], topic: str = None) -> str:
+    def generate_lyrics_for_chunks(self, chunks: List[Dict], topic: str = None) -> List[Dict]:
         topic = topic or self.educational_topic
-        lyric_lines = []
+        all_word_entries = []
         
         for chunk in chunks:
             lyrics = self._generate_best_matching_lyrics(chunk, topic)
-            formatted = self._format_with_timestamps(lyrics, chunk)
-            lyric_lines.append(formatted)
+            word_entries = self._format_with_timestamps(lyrics, chunk)
+            all_word_entries.extend(word_entries)
         
-        return " ".join(lyric_lines)
+        return all_word_entries
     
     def _generate_best_matching_lyrics(self, chunk: Dict, topic: str) -> str:
         """Generate multiple candidates and pick the best viseme match."""
@@ -275,97 +276,260 @@ Generate 5 phrases with {target_syllables} syllables about {topic}:
         lyrics = re.sub(r'[.!?]+$', '', lyrics)
         return lyrics.strip()
     
-    def _format_with_timestamps(self, lyrics: str, chunk: Dict) -> str:
+    def _format_with_timestamps(self, lyrics: str, chunk: Dict) -> List[Dict]:
+        """Format lyrics as list of word dictionaries with timestamps."""
         words = lyrics.split()
         if not words:
-            return ""
+            return []
         
         total_duration = chunk['t1'] - chunk['t0']
         time_per_word = total_duration / len(words)
         
-        formatted_words = []
+        word_entries = []
         current_time = chunk['t0']
         
         for word in words:
-            start_time = current_time
-            end_time = current_time + time_per_word
-            formatted_words.append(f"{word}[{start_time:.2f}:{end_time:.2f}]")
+            start_time = round(current_time, 1)
+            end_time = round(current_time + time_per_word, 1)
+            
+            word_entries.append({
+                "start": start_time,
+                "end": end_time,
+                "word": word
+            })
             current_time = end_time
         
-        return " ".join(formatted_words)
+        return word_entries
 
-def create_robust_educational_lipsync_lyrics(visemes: List[Dict], topic: str, openai_api_key: str) -> str:
+def create_robust_educational_lipsync_lyrics(visemes: List[Dict], topic: str, openai_api_key: str, output_file: str = None) -> List[Dict]:
     """
     Robust pipeline: visemes -> candidates -> scoring -> best match selection.
     
     Args:
-        visemes: List of viseme events with 'viseme', 't0', 't1' (using actual viseme names like AA, PP, etc.)
+        visemes: List of viseme events with 'viseme', 't0', 't1'
         topic: Educational topic
         openai_api_key: OpenAI API key
+        output_file: Optional filename to save JSON output
         
     Returns:
-        Formatted lyrics string with timestamps like: word[start:end]
+        List of word dictionaries with start/end times
     """
     chunks = chunk_for_educational_lyrics(visemes)
     generator = RobustEducationalLyricGenerator(openai_api_key, topic)
-    lyrics_with_timestamps = generator.generate_lyrics_for_chunks(chunks)
-    return lyrics_with_timestamps
+    word_entries = generator.generate_lyrics_for_chunks(chunks)
+    
+    # Save to JSON file if requested
+    if output_file:
+        with open(output_file, 'w') as f:
+            json.dump(word_entries, f, indent=2)
+        print(f"Lyrics saved to {output_file}")
+    
+    return word_entries
 
-# Example usage and testing
+# Replace the __main__ section with this more realistic test:
+
 if __name__ == "__main__":
-    # Sample with actual viseme names from your table
+    # More realistic viseme sequence with varied timing (like actual speech)
     sample_visemes = [
-        {"viseme":"PP","t0":0.0,"t1":0.1},       # p, b, m sounds
-        {"viseme":"AA","t0":0.1,"t1":0.3},       # A sound  
-        {"viseme":"DD","t0":0.3,"t1":0.4},       # d, t sounds
-        {"viseme":"Silence","t0":0.4,"t1":0.6},  # pause
-        {"viseme":"IH","t0":0.6,"t1":0.8},       # ih sound
-        {"viseme":"SS","t0":0.8,"t1":0.9},       # s, z sounds
+        # "Plants need sunlight to grow well"
+        {"viseme":"PP","t0":0.0,"t1":0.08},      # P in "Plants"
+        {"viseme":"NN","t0":0.08,"t1":0.15},     # l in "Plants" 
+        {"viseme":"AA","t0":0.15,"t1":0.28},     # a in "Plants"
+        {"viseme":"NN","t0":0.28,"t1":0.35},     # n in "Plants"
+        {"viseme":"DD","t0":0.35,"t1":0.42},     # t in "Plants"
+        {"viseme":"SS","t0":0.42,"t1":0.48},     # s in "Plants"
+        
+        {"viseme":"Silence","t0":0.48,"t1":0.65}, # brief pause
+        
+        {"viseme":"NN","t0":0.65,"t1":0.72},     # n in "need"
+        {"viseme":"E","t0":0.72,"t1":0.88},      # ee in "need"
+        {"viseme":"DD","t0":0.88,"t1":0.95},     # d in "need"
+        
+        {"viseme":"Silence","t0":0.95,"t1":1.1}, # pause
+        
+        {"viseme":"SS","t0":1.1,"t1":1.18},      # s in "sunlight"
+        {"viseme":"AA","t0":1.18,"t1":1.32},     # u in "sunlight"
+        {"viseme":"NN","t0":1.32,"t1":1.38},     # n in "sunlight"
+        {"viseme":"NN","t0":1.38,"t1":1.45},     # l in "sunlight"
+        {"viseme":"AA","t0":1.45,"t1":1.58},     # i in "sunlight"
+        {"viseme":"DD","t0":1.58,"t1":1.65},     # t in "sunlight"
+        
+        {"viseme":"Silence","t0":1.65,"t1":1.85}, # longer pause
+        
+        {"viseme":"DD","t0":1.85,"t1":1.92},     # t in "to"
+        {"viseme":"OU","t0":1.92,"t1":2.08},     # o in "to"
+        
+        {"viseme":"Silence","t0":2.08,"t1":2.18}, # brief pause
+        
+        {"viseme":"KK","t0":2.18,"t1":2.25},     # g in "grow"
+        {"viseme":"RR","t0":2.25,"t1":2.32},     # r in "grow"
+        {"viseme":"OH","t0":2.32,"t1":2.48},     # ow in "grow"
+        
+        {"viseme":"Silence","t0":2.48,"t1":2.62}, # pause
+        
+        {"viseme":"OU","t0":2.62,"t1":2.75},     # w in "well"
+        {"viseme":"E","t0":2.75,"t1":2.88},      # e in "well"
+        {"viseme":"NN","t0":2.88,"t1":2.95},     # l in "well"
+        
+        {"viseme":"Silence","t0":2.95,"t1":3.2}, # final pause
+        
+        # Second phrase: "Water flows through roots"
+        {"viseme":"OU","t0":3.2,"t1":3.28},      # w in "water"
+        {"viseme":"AA","t0":3.28,"t1":3.42},     # a in "water"
+        {"viseme":"DD","t0":3.42,"t1":3.48},     # t in "water"
+        {"viseme":"RR","t0":3.48,"t1":3.58},     # r in "water"
+        
+        {"viseme":"Silence","t0":3.58,"t1":3.75}, # pause
+        
+        {"viseme":"FF","t0":3.75,"t1":3.82},     # f in "flows"
+        {"viseme":"NN","t0":3.82,"t1":3.88},     # l in "flows"
+        {"viseme":"OH","t0":3.88,"t1":4.05},     # ow in "flows"
+        {"viseme":"SS","t0":4.05,"t1":4.15},     # s in "flows"
+        
+        {"viseme":"Silence","t0":4.15,"t1":4.32}, # pause
+        
+        {"viseme":"TH","t0":4.32,"t1":4.38},     # th in "through"
+        {"viseme":"RR","t0":4.38,"t1":4.45},     # r in "through"
+        {"viseme":"OU","t0":4.45,"t1":4.62},     # ough in "through"
+        
+        {"viseme":"Silence","t0":4.62,"t1":4.78}, # pause
+        
+        {"viseme":"RR","t0":4.78,"t1":4.85},     # r in "roots"
+        {"viseme":"OU","t0":4.85,"t1":4.98},     # oo in "roots"
+        {"viseme":"DD","t0":4.98,"t1":5.05},     # t in "roots"
+        {"viseme":"SS","t0":5.05,"t1":5.15},     # s in "roots"
+        
+        {"viseme":"Silence","t0":5.15,"t1":5.5}, # final silence
     ]
     
-    chunks = chunk_for_educational_lyrics(sample_visemes)
-    print("Generated chunks:")
-    for i, chunk in enumerate(chunks):
-        print(f"  Chunk {i+1}: {chunk['target_viseme_pattern']}")
-        print(f"    Syllables: {chunk['estimated_syllables']}")
-        print(f"    Duration: {chunk['duration']}s")
+    print("=== ROBUST LYRICS GENERATOR TEST ===")
+    print(f"Total test duration: {sample_visemes[-1]['t1']:.1f} seconds")
+    print(f"Total visemes: {len(sample_visemes)}")
     
-    print("\n" + "="*50)
-    print("Testing candidate generation and scoring...")
+    chunks = chunk_for_educational_lyrics(sample_visemes, target_duration=2.5)
+    print(f"\nGenerated {len(chunks)} chunks:")
+    for i, chunk in enumerate(chunks):
+        viseme_summary = ' -> '.join(chunk['target_viseme_pattern'][:8])  # Show first 8
+        if len(chunk['target_viseme_pattern']) > 8:
+            viseme_summary += "..."
+        print(f"  Chunk {i+1}: {chunk['t0']:.2f}-{chunk['t1']:.2f}s ({chunk['duration']:.1f}s)")
+        print(f"    Visemes: {viseme_summary}")
+        print(f"    Est. syllables: {chunk['estimated_syllables']}")
+    
+    print("\n" + "="*60)
+    print("TESTING CANDIDATE GENERATION...")
     
     # Use the real API key from environment
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         print("⚠️  OPENAI_API_KEY not set, using fallback mode")
-        generator = RobustEducationalLyricGenerator("fake-key", "math")
+        generator = RobustEducationalLyricGenerator("fake-key", "plant biology")
     else:
         print("✅ Using real OpenAI API key")
-        generator = RobustEducationalLyricGenerator(api_key, "math")
+        generator = RobustEducationalLyricGenerator(api_key, "plant biology")
     
-    for chunk in chunks:
-        candidates = generator._fallback_candidates(chunk, "math")
-        print(f"\nCandidates for chunk: {chunk['target_viseme_pattern']}")
-        for candidate in candidates:
-            score = generator._score_candidate_simple(candidate, chunk)
-            print(f"  '{candidate}' -> score: {score:.2f}")
+    # Test each chunk individually
+    for i, chunk in enumerate(chunks):
+        print(f"\n--- CHUNK {i+1} ANALYSIS ---")
+        print(f"Target: {chunk['target_viseme_pattern']}")
+        print(f"Duration: {chunk['duration']:.1f}s, Syllables: {chunk['estimated_syllables']}")
+        
+        # Generate candidates
+        if api_key and api_key != "fake-key":
+            try:
+                candidates = generator._generate_candidate_lyrics(chunk, "plant biology")
+                print(f"AI Generated {len(candidates)} candidates:")
+                for j, candidate in enumerate(candidates):
+                    score = generator._score_candidate_simple(candidate, chunk)
+                    print(f"  {j+1}. '{candidate}' (score: {score:.2f})")
+            except Exception as e:
+                print(f"AI generation failed: {e}")
+                candidates = generator._fallback_candidates(chunk, "plant biology")
+                print(f"Fallback candidates:")
+                for j, candidate in enumerate(candidates):
+                    score = generator._score_candidate_simple(candidate, chunk)
+                    print(f"  {j+1}. '{candidate}' (score: {score:.2f})")
+        else:
+            candidates = generator._fallback_candidates(chunk, "plant biology")
+            print(f"Fallback candidates:")
+            for j, candidate in enumerate(candidates):
+                score = generator._score_candidate_simple(candidate, chunk)
+                print(f"  {j+1}. '{candidate}' (score: {score:.2f})")
+        
+        # Show best match
+        best_lyrics = generator._generate_best_matching_lyrics(chunk, "plant biology")
+        print(f"  → BEST: '{best_lyrics}'")
     
-    print("\n" + "="*50)
-    print("Testing full pipeline...")
+    print("\n" + "="*60)
+    print("TESTING FULL PIPELINE...")
     
-    # Test with the real API
-    result = generator.generate_lyrics_for_chunks(chunks, "mathematics")
-    print(f"Generated lyrics: {result}")
+    # Test the complete pipeline
+    topics_to_test = ["plant biology", "basic math", "water cycle"]
     
-    # Also test the main function
-    print("\n" + "="*50)
-    print("Testing main function...")
+    for topic in topics_to_test:
+        print(f"\n--- TOPIC: {topic.upper()} ---")
+        if api_key and api_key != "fake-key":
+            try:
+                full_result = create_robust_educational_lipsync_lyrics(
+                    visemes=sample_visemes,
+                    topic=topic,
+                    openai_api_key=api_key
+                )
+                print(f"Result: {full_result}")
+                
+                # Analyze the result
+                words_with_times = re.findall(r'(\w+)\[([0-9.]+):([0-9.]+)\]', full_result)
+                print(f"Generated {len(words_with_times)} words:")
+                for word, start, end in words_with_times[:5]:  # Show first 5
+                    print(f"  '{word}' at {start}-{end}s")
+                if len(words_with_times) > 5:
+                    print(f"  ... and {len(words_with_times) - 5} more")
+                    
+            except Exception as e:
+                print(f"Full pipeline failed: {e}")
+        else:
+            print("Skipping AI generation - no API key")
     
-    if api_key:
-        full_result = create_robust_educational_lipsync_lyrics(
-            visemes=sample_visemes,
-            topic="basic math",
-            openai_api_key=api_key
-        )
-        print(f"Full pipeline result: {full_result}")
-    else:
-        print("Skipping main function test - no API key")
+    print(f"\n{'='*60}")
+    print("TEST COMPLETE!")
+
+    print("\n" + "="*60)
+    print("TESTING JSON OUTPUT...")
+    
+    # Test the complete pipeline with JSON output
+    topics_to_test = ["plant biology", "basic math"]
+    
+    for i, topic in enumerate(topics_to_test):
+        print(f"\n--- TOPIC: {topic.upper()} ---")
+        
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            api_key = "fake-key"
+        
+        try:
+            # Generate lyrics and save to JSON
+            output_filename = f"lyrics_{topic.replace(' ', '_')}.json"
+            word_entries = create_robust_educational_lipsync_lyrics(
+                visemes=sample_visemes,
+                topic=topic,
+                openai_api_key=api_key,
+                output_file=output_filename
+            )
+            
+            print(f"Generated {len(word_entries)} words")
+            print("Sample output:")
+            for j, entry in enumerate(word_entries[:5]):  # Show first 5
+                print(f"  {j+1}. {entry}")
+            if len(word_entries) > 5:
+                print(f"  ... and {len(word_entries) - 5} more words")
+            
+            # Also print the JSON structure
+            print(f"\nJSON structure preview:")
+            print(json.dumps(word_entries[:3], indent=2))
+            
+        except Exception as e:
+            print(f"Pipeline failed: {e}")
+    
+    print(f"\n{'='*60}")
+    print("JSON OUTPUT TEST COMPLETE!")
+    print("Check the generated .json files in the current directory")
