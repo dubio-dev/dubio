@@ -6,22 +6,13 @@ modal_app_name = "integrated-jamify-pipeline"
 
 app = modal.App(modal_app_name)
 
-# Comprehensive image with all dependencies
+# Modal image setup
 image = (
-    modal.Image.debian_slim()
-    .apt_install([
-        "git", "ffmpeg", "wget", "curl",
-        "python3-pip", "python3-dev", "build-essential"
-    ])
-    .pip_install([
-        # Core dependencies
-        "yt-dlp", "librosa", "torch==2.0.1", "torchaudio==2.0.2", 
-        "nltk", "numpy", "numba", "openai", "modal",
-        # Additional packages
-        "requests", "beautifulsoup4", "regex", "pathlib2"
-    ])
-    .pip_install("git+https://github.com/xhhhhang/DeepPhonemizer@dcfafbf2")
-    .add_local_python_source("jamify", copy=True)
+    modal.Image.debian_slim(python_version="3.11")
+    .apt_install(["ffmpeg", "git"])
+    .pip_install_from_requirements("requirements.txt")
+    .add_local_file("requirements.txt", remote_path="/root/requirements.txt")
+    .add_local_dir("jamify/src", remote_path="/root/jamify/src", copy=True)
     .add_local_dir("jamify/configs", remote_path="/root/jamify/configs", copy=True)
     .add_local_dir("jamify/inputs", remote_path="/root/jamify/inputs", copy=True)
     .add_local_dir("jamify/public", remote_path="/root/jamify/public", copy=True)
@@ -31,8 +22,11 @@ image = (
     .add_local_file("stitch_audio_video.py", remote_path="/root/stitch_audio_video.py")
     .env({"PYTHONPATH": "/root/jamify/src:/root"})
     .run_commands([
-        "python -c 'import nltk; nltk.download(\"cmudict\")'",
+        # Download NLTK data during image build instead of runtime
+        "python -c 'import nltk; nltk.download(\"cmudict\", download_dir=\"/root/nltk_data\")'",
+        "mkdir -p /root/nltk_data",
     ])
+    .env({"NLTK_DATA": "/root/nltk_data"})
 )
 
 volumes = {

@@ -1,5 +1,5 @@
 # Hardcoded YouTube URL + MP3 -> writes OUT (MP4 with H.264 + AAC)
-# Requirements: pip install yt-dlp  |  install ffmpeg on PATH
+# Requirements: pip install -r requirements.txt  |  install ffmpeg on PATH
 
 import subprocess, tempfile, pathlib
 
