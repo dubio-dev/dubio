@@ -316,8 +316,8 @@ def convert_phoneme_txt_to_json(txt_path: Path, json_path: Path):
                 end_time = start_time + 0.1
             
             result.append({
-                "start": start_time,
-                "end": end_time,
+                "t0": start_time,
+                "t1": end_time,
                 "phoneme": phoneme
             })
     
@@ -352,10 +352,10 @@ def to_minimal_visemes(phoneme_json: Path, out_json: Path):
         else:
             vis = ARPABET_TO_VISEME[ph]
 
-        row = {"start": start, "end": end, "phoneme": ph, "viseme": vis}
+        row = {"t0": start, "t1": end, "phoneme": ph, "viseme": vis}
 
-        if last and last["viseme"] == row["viseme"] and abs(row["start"] - last["end"]) < 0.02:
-            last["end"] = max(last["end"], row["end"])
+        if last and last["viseme"] == row["viseme"] and abs(row["t0"] - last["t1"]) < 0.02:
+            last["t1"] = max(last["t1"], row["t1"])
         else:
             result.append(row)
             last = row
