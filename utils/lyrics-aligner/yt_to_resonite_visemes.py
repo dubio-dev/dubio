@@ -130,50 +130,103 @@ def download_audio_and_captions(url, outdir: Path, lang: str):
     return audio, subs
 
 def captions_to_text(sub_path: Path):
-    """Extract clean text from VTT subtitle file"""
+    """Extract clean text from VTT subtitle file with improved robustness"""
     lines = []
     
     with open(sub_path, "r", encoding="utf-8", errors="ignore") as f:
         content = f.read()
     
-    # Split into lines and process
-    for line in content.split('\n'):
-        line = line.strip()
-        
-        # Skip header lines, timestamps, numbers, and empty lines
-        if (not line or 
-            line.upper() in ["WEBVTT", "KIND: CAPTIONS", "LANGUAGE: EN"] or
-            re.match(r'\d{2}:\d{2}:\d{2}\.\d{3}\s+-->', line) or
-            line.isdigit()):
+    # Split into blocks and process each one
+    blocks = re.split(r'\n\s*\n', content)
+    
+    for block in blocks:
+        block_lines = [line.strip() for line in block.split('\n') if line.strip()]
+        if not block_lines:
             continue
-        
-        # Clean the text
-        cleaned = line
-        
-        # Remove timing tags like <00:00:19.039><c> no</c>
-        cleaned = re.sub(r'<\d{2}:\d{2}:\d{2}\.\d{3}><c>\s*', '', cleaned)
-        cleaned = re.sub(r'</c>', '', cleaned)
-        cleaned = re.sub(r'<[^>]+>', '', cleaned)
-        
-        # Normalize spacing
-        cleaned = re.sub(r'\s+', ' ', cleaned)
-        cleaned = cleaned.strip()
-        
-        # Only keep lines that look like proper sentences (have spaces and reasonable length)
-        if (cleaned and 
-            ' ' in cleaned and  # Has spaces (multiple words)
-            len(cleaned) > 3 and  # Reasonable length
-            not cleaned.startswith('[') and  # Not music markers
-            cleaned != '[Music]'):
             
-            # Only add if it's not a duplicate
-            if not lines or cleaned != lines[-1]:
-                lines.append(cleaned)
+        # Find text lines (skip timestamps, numbers, headers)
+        text_lines = []
+        for line in block_lines:
+            # Skip VTT headers
+            if line.upper() in ["WEBVTT", "KIND: CAPTIONS", "LANGUAGE: EN"]:
+                continue
+            # Skip timestamp lines
+            if re.match(r'\d{2}:\d{2}:\d{2}\.\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}\.\d{3}', line):
+                continue
+            # Skip sequence numbers
+            if line.isdigit():
+                continue
+            # Skip NOTE lines
+            if line.upper().startswith('NOTE'):
+                continue
+                
+            text_lines.append(line)
+        
+        # Process text lines
+        for line in text_lines:
+            cleaned = clean_vtt_text(line)
+            if is_valid_caption_text(cleaned):
+                # Only add if it's not a duplicate
+                if not lines or cleaned != lines[-1]:
+                    lines.append(cleaned)
     
     return lines
 
+def clean_vtt_text(text: str) -> str:
+    """Clean VTT text with comprehensive tag removal"""
+    if not text:
+        return ""
+    
+    # Remove all timing tags (more flexible pattern)
+    text = re.sub(r'<\d{2}:\d{2}:\d{2}\.\d{3}>', '', text)
+    
+    # Remove VTT markup tags
+    text = re.sub(r'</?c[^>]*>', '', text)  # Color tags
+    text = re.sub(r'</?v[^>]*>', '', text)  # Voice tags  
+    text = re.sub(r'</?i[^>]*>', '', text)  # Italic tags
+    text = re.sub(r'</?b[^>]*>', '', text)  # Bold tags
+    text = re.sub(r'</?u[^>]*>', '', text)  # Underline tags
+    text = re.sub(r'</?ruby[^>]*>', '', text)  # Ruby tags
+    text = re.sub(r'</?rt[^>]*>', '', text)  # Ruby text tags
+    
+    # Remove any remaining HTML-like tags
+    text = re.sub(r'<[^>]+>', '', text)
+    
+    # Remove music/sound effect markers
+    text = re.sub(r'\[[^\]]*\]', '', text)
+    text = re.sub(r'\([^\)]*music[^\)]*\)', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\([^\)]*sound[^\)]*\)', '', text, flags=re.IGNORECASE)
+    
+    # Clean up whitespace
+    text = re.sub(r'\s+', ' ', text)
+    text = text.strip()
+    
+    return text
+
+def is_valid_caption_text(text: str) -> bool:
+    """Check if text is valid caption content (more permissive)"""
+    if not text:
+        return False
+    
+    # Minimum length check (reduced from 3 to 1)
+    if len(text) < 1:
+        return False
+    
+    # Skip obvious non-content
+    if text.lower() in ['music', 'applause', 'laughter', '♪', '♫']:
+        return False
+    
+    # Allow single words and concatenated text (removed space requirement)
+    # This handles cases like "happyyoucoulddie" from the terminal output
+    
+    # Check if it contains at least some alphabetic characters
+    if not re.search(r'[a-zA-Z]', text):
+        return False
+    
+    return True
+
 def parse_vtt_with_timing(sub_path: Path):
-    """Extract text segments with timing information from VTT subtitle file"""
+    """Extract text segments with timing information from VTT subtitle file with improved robustness"""
     segments = []
     
     with open(sub_path, "r", encoding="utf-8", errors="ignore") as f:
@@ -192,17 +245,19 @@ def parse_vtt_with_timing(sub_path: Path):
         text_lines = []
         
         for line in lines:
-            if re.match(r'\d{2}:\d{2}:\d{2}\.\d{3}\s+-->', line):
+            # More flexible timestamp matching
+            if re.match(r'\d{2}:\d{2}:\d{2}\.\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}\.\d{3}', line):
                 timestamp_line = line
             elif (line.upper() not in ["WEBVTT", "KIND: CAPTIONS", "LANGUAGE: EN"] and
-                  not line.isdigit()):
+                  not line.isdigit() and
+                  not line.upper().startswith('NOTE')):
                 text_lines.append(line)
         
         if not timestamp_line or not text_lines:
             continue
             
-        # Parse timestamp
-        match = re.match(r'(\d{2}):(\d{2}):(\d{2})\.(\d{3})\s+-->\s+(\d{2}):(\d{2}):(\d{2})\.(\d{3})', timestamp_line)
+        # Parse timestamp with more flexible regex
+        match = re.match(r'(\d{2}):(\d{2}):(\d{2})\.(\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2})\.(\d{3})', timestamp_line)
         if not match:
             continue
             
@@ -213,28 +268,39 @@ def parse_vtt_with_timing(sub_path: Path):
         start_time = start_h * 3600 + start_m * 60 + start_s + start_ms / 1000.0
         end_time = end_h * 3600 + end_m * 60 + end_s + end_ms / 1000.0
         
-        # Clean text
-        text = ' '.join(text_lines)
-        # Remove timing tags like <00:00:19.039><c> no</c>
-        text = re.sub(r'<\d{2}:\d{2}:\d{2}\.\d{3}><c>\s*', '', text)
-        text = re.sub(r'</c>', '', text)
-        text = re.sub(r'<[^>]+>', '', text)
-        text = re.sub(r'\s+', ' ', text).strip()
+        # Skip invalid time ranges
+        if end_time <= start_time:
+            continue
         
-        # Only keep segments with meaningful text
-        if (text and 
-            ' ' in text and  # Has spaces (multiple words)
-            len(text) > 3 and  # Reasonable length
-            not text.startswith('[') and  # Not music markers
-            text != '[Music]'):
-            
-            segments.append({
-                'start': start_time,
-                'end': end_time,
-                'text': text
-            })
+        # Clean text using improved function
+        text = ' '.join(text_lines)
+        text = clean_vtt_text(text)
+        
+        # Use improved validation (more permissive)
+        if is_valid_caption_text(text):
+            # Check for overlapping segments and merge if very close
+            if (segments and 
+                abs(start_time - segments[-1]['end']) < 0.1 and
+                segments[-1]['text'] == text):
+                # Extend previous segment instead of adding duplicate
+                segments[-1]['end'] = max(segments[-1]['end'], end_time)
+            else:
+                segments.append({
+                    'start': start_time,
+                    'end': end_time,
+                    'text': text
+                })
     
-    return segments
+    # Sort segments by start time and remove duplicates
+    segments.sort(key=lambda x: x['start'])
+    
+    # Remove exact duplicates
+    unique_segments = []
+    for segment in segments:
+        if not unique_segments or segment != unique_segments[-1]:
+            unique_segments.append(segment)
+    
+    return unique_segments
 
 def run_lyrics_aligner(audio_path: Path, lyrics_path: Path, out_json: Path, vtt_path: Path = None):
     """Run phoneme alignment using built-in logic with optional VTT timing"""
